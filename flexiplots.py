@@ -1,887 +1,1552 @@
-<!DOCTYPE html>
-<html class="" lang="en">
-<head prefix="og: http://ogp.me/ns#">
-<meta charset="utf-8">
-<link href="https://assets.gitlab-static.net" rel="dns-prefetch">
-<link crossorigin="" href="https://assets.gitlab-static.net" rel="preconnnect">
-<meta content="IE=edge" http-equiv="X-UA-Compatible">
-<meta content="object" property="og:type">
-<meta content="GitLab" property="og:site_name">
-<meta content="utils/flexiplots.py · master · gamesystems / data-team" property="og:title">
-<meta content="Experimental things from the Data Team" property="og:description">
-<meta content="https://assets.gitlab-static.net/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png" property="og:image">
-<meta content="64" property="og:image:width">
-<meta content="64" property="og:image:height">
-<meta content="https://gitlab.com/gamesystems/data-team/blob/master/utils/flexiplots.py" property="og:url">
-<meta content="summary" property="twitter:card">
-<meta content="utils/flexiplots.py · master · gamesystems / data-team" property="twitter:title">
-<meta content="Experimental things from the Data Team" property="twitter:description">
-<meta content="https://assets.gitlab-static.net/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png" property="twitter:image">
-
-<title>utils/flexiplots.py · master · gamesystems / data-team · GitLab</title>
-<meta content="Experimental things from the Data Team" name="description">
-<link rel="shortcut icon" type="image/png" href="https://gitlab.com/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" id="favicon" data-original-href="https://gitlab.com/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" />
-<link rel="stylesheet" media="all" href="https://assets.gitlab-static.net/assets/application-726b85458567afcf334545876d497597c31c8cd529ef6c258fc79a373bc0e081.css" />
-<link rel="stylesheet" media="print" href="https://assets.gitlab-static.net/assets/print-74c3df10dad473d66660c828e3aa54ca3bfeac6d8bb708643331403fe7211e60.css" />
-
-
-
-<link rel="stylesheet" media="all" href="https://assets.gitlab-static.net/assets/highlight/themes/white-a165d47ce52cf24c29686366976ae691bd9addb9641a6abeb3ba6d1823b89aa8.css" />
-<script>
-//<![CDATA[
-window.gon={};gon.api_version="v4";gon.default_avatar_url="https://assets.gitlab-static.net/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";gon.max_file_size=10;gon.asset_host="https://assets.gitlab-static.net";gon.webpack_public_path="https://assets.gitlab-static.net/assets/webpack/";gon.relative_url_root="";gon.shortcuts_path="/help/shortcuts";gon.user_color_scheme="white";gon.sentry_dsn="https://526a2f38a53d44e3a8e69bfa001d1e8b@sentry.gitlab.net/15";gon.sentry_environment=null;gon.gitlab_url="https://gitlab.com";gon.revision="1802ffd1444";gon.gitlab_logo="https://assets.gitlab-static.net/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png";gon.sprite_icons="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg";gon.sprite_file_icons="https://gitlab.com/assets/file_icons-7262fc6897e02f1ceaf8de43dc33afa5e4f9a2067f4f68ef77dcc87946575e9e.svg";gon.emoji_sprites_css_path="https://assets.gitlab-static.net/assets/emoji_sprites-289eccffb1183c188b630297431be837765d9ff4aed6130cf738586fb307c170.css";gon.test_env=false;gon.suggested_label_colors={"#0033CC":"UA blue","#428BCA":"Moderate blue","#44AD8E":"Lime green","#A8D695":"Feijoa","#5CB85C":"Slightly desaturated green","#69D100":"Bright green","#004E00":"Very dark lime green","#34495E":"Very dark desaturated blue","#7F8C8D":"Dark grayish cyan","#A295D6":"Slightly desaturated blue","#5843AD":"Dark moderate blue","#8E44AD":"Dark moderate violet","#FFECDB":"Very pale orange","#AD4363":"Dark moderate pink","#D10069":"Strong pink","#CC0033":"Strong red","#FF0000":"Pure red","#D9534F":"Soft red","#D1D100":"Strong yellow","#F0AD4E":"Soft orange","#AD8D43":"Dark moderate orange"};gon.first_day_of_week=0;gon.ee=true;gon.current_user_id=1132950;gon.current_username="avivshany";gon.current_user_fullname="Aviv Shany";gon.current_user_avatar_url="https://secure.gravatar.com/avatar/af23ea96acd6c06ac1771a106be37ca0?s=80\u0026d=identicon";gon.features={"gfmEmbeddedMetrics":true};
-//]]>
-</script>
-
-<script src="https://assets.gitlab-static.net/assets/webpack/runtime.a90abc35.bundle.js" defer="defer"></script>
-<script src="https://assets.gitlab-static.net/assets/webpack/main.3de660a0.chunk.js" defer="defer"></script>
-<script src="https://assets.gitlab-static.net/assets/webpack/raven.c3c214af.chunk.js" defer="defer"></script>
-<script src="https://assets.gitlab-static.net/assets/webpack/commons~pages.admin.clusters~pages.admin.clusters.destroy~pages.admin.clusters.edit~pages.admin.clus~b135a150.f07b43fc.chunk.js" defer="defer"></script>
-<script src="https://assets.gitlab-static.net/assets/webpack/commons~pages.groups.epics.index~pages.groups.epics.show~pages.groups.milestones.edit~pages.groups.m~14875979.f0e7421d.chunk.js" defer="defer"></script>
-<script src="https://assets.gitlab-static.net/assets/webpack/pages.projects.blob.show.87f741ed.chunk.js" defer="defer"></script>
-<script>
-  window.uploads_path = "/gamesystems/data-team/uploads";
-</script>
-
-<meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="Miuam71o57us1ZHCDxP4baALSEo8Gc5budlqtQadxFXTcxtyEgoMetjhCd9q15F3M84axP+k4n5zg24L1RPMaQ==" />
-<meta content="origin-when-cross-origin" name="referrer">
-<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-<meta content="#474D57" name="theme-color">
-<link rel="apple-touch-icon" type="image/x-icon" href="https://assets.gitlab-static.net/assets/touch-icon-iphone-5a9cee0e8a51212e70b90c87c12f382c428870c0ff67d1eb034d884b78d2dae7.png" />
-<link rel="apple-touch-icon" type="image/x-icon" href="https://assets.gitlab-static.net/assets/touch-icon-ipad-a6eec6aeb9da138e507593b464fdac213047e49d3093fc30e90d9a995df83ba3.png" sizes="76x76" />
-<link rel="apple-touch-icon" type="image/x-icon" href="https://assets.gitlab-static.net/assets/touch-icon-iphone-retina-72e2aadf86513a56e050e7f0f2355deaa19cc17ed97bbe5147847f2748e5a3e3.png" sizes="120x120" />
-<link rel="apple-touch-icon" type="image/x-icon" href="https://assets.gitlab-static.net/assets/touch-icon-ipad-retina-8ebe416f5313483d9c1bc772b5bbe03ecad52a54eba443e5215a22caed2a16a2.png" sizes="152x152" />
-<link color="rgb(226, 67, 41)" href="https://assets.gitlab-static.net/assets/logo-d36b5212042cebc89b96df4bf6ac24e43db316143e89926c0db839ff694d2de4.svg" rel="mask-icon">
-<meta content="https://assets.gitlab-static.net/assets/msapplication-tile-1196ec67452f618d39cdd85e2e3a542f76574c071051ae7effbfde01710eb17d.png" name="msapplication-TileImage">
-<meta content="#30353E" name="msapplication-TileColor">
-
-
-
-<script>
-  ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
-  p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
-  };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
-  n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","https://assets.gitlab-static.net/assets/snowplow/sp-e10fd598642f1a4dd3e9e0e026f6a1ffa3c31b8a40efd92db3f92d32873baed6.js","snowplow"));
-  
-  window.snowplow('newTracker', 'cf', 'snowplow.trx.gitlab.net', {
-    appId: 'gitlab',
-    cookieDomain: '.gitlab.com',
-    userFingerprint: false,
-    respectDoNotTrack: true,
-    forceSecureTracker: true,
-    post: true,
-    contexts: {
-        webPage: true,
-    },
-    stateStorageStrategy: "localStorage"
-  });
-  
-  window.snowplow('enableActivityTracking', 30, 30);
-  window.snowplow('trackPageView');
-</script>
-
-
-
-</head>
-
-<body class="ui-indigo  gl-browser-chrome gl-platform-windows" data-find-file="/gamesystems/data-team/find_file/master" data-group="" data-page="projects:blob:show" data-project="data-team">
-
-<script>
-  gl = window.gl || {};
-  gl.client = {"isChrome":true,"isWindows":true};
-</script>
-
-
-
-<header class="navbar navbar-gitlab navbar-expand-sm js-navbar" data-qa-selector="navbar">
-<a class="sr-only gl-accessibility" href="#content-body" tabindex="1">Skip to content</a>
-<div class="container-fluid">
-<div class="header-content">
-<div class="title-container">
-<h1 class="title">
-<a title="Dashboard" id="logo" href="/"><svg width="24" height="24" class="tanuki-logo" viewBox="0 0 36 36">
-  <path class="tanuki-shape tanuki-left-ear" fill="#e24329" d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"/>
-  <path class="tanuki-shape tanuki-right-ear" fill="#e24329" d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"/>
-  <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"/>
-  <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"/>
-  <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"/>
-  <path class="tanuki-shape tanuki-left-cheek" fill="#fca326" d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"/>
-  <path class="tanuki-shape tanuki-right-cheek" fill="#fca326" d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"/>
-</svg>
-
-<span class="logo-text d-none d-lg-block prepend-left-8">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 617 169"><path d="M315.26 2.97h-21.8l.1 162.5h88.3v-20.1h-66.5l-.1-142.4M465.89 136.95c-5.5 5.7-14.6 11.4-27 11.4-16.6 0-23.3-8.2-23.3-18.9 0-16.1 11.2-23.8 35-23.8 4.5 0 11.7.5 15.4 1.2v30.1h-.1m-22.6-98.5c-17.6 0-33.8 6.2-46.4 16.7l7.7 13.4c8.9-5.2 19.8-10.4 35.5-10.4 17.9 0 25.8 9.2 25.8 24.6v7.9c-3.5-.7-10.7-1.2-15.1-1.2-38.2 0-57.6 13.4-57.6 41.4 0 25.1 15.4 37.7 38.7 37.7 15.7 0 30.8-7.2 36-18.9l4 15.9h15.4v-83.2c-.1-26.3-11.5-43.9-44-43.9M557.63 149.1c-8.2 0-15.4-1-20.8-3.5V70.5c7.4-6.2 16.6-10.7 28.3-10.7 21.1 0 29.2 14.9 29.2 39 0 34.2-13.1 50.3-36.7 50.3m9.2-110.6c-19.5 0-30 13.3-30 13.3v-21l-.1-27.8h-21.3l.1 158.5c10.7 4.5 25.3 6.9 41.2 6.9 40.7 0 60.3-26 60.3-70.9-.1-35.5-18.2-59-50.2-59M77.9 20.6c19.3 0 31.8 6.4 39.9 12.9l9.4-16.3C114.5 6 97.3 0 78.9 0 32.5 0 0 28.3 0 85.4c0 59.8 35.1 83.1 75.2 83.1 20.1 0 37.2-4.7 48.4-9.4l-.5-63.9V75.1H63.6v20.1h38l.5 48.5c-5 2.5-13.6 4.5-25.3 4.5-32.2 0-53.8-20.3-53.8-63-.1-43.5 22.2-64.6 54.9-64.6M231.43 2.95h-21.3l.1 27.3v94.3c0 26.3 11.4 43.9 43.9 43.9 4.5 0 8.9-.4 13.1-1.2v-19.1c-3.1.5-6.4.7-9.9.7-17.9 0-25.8-9.2-25.8-24.6v-65h35.7v-17.8h-35.7l-.1-38.5M155.96 165.47h21.3v-124h-21.3v124M155.96 24.37h21.3V3.07h-21.3v21.3"/></svg>
-
-</span>
-</a><a class="label-link js-canary-badge canary-badge bg-transparent hidden" target="_blank" href="https://next.gitlab.com"><span class="color-label has-tooltip badge badge-pill green-badge">
-Next
-</span>
-</a></h1>
-<ul class="list-unstyled navbar-sub-nav">
-<li id="nav-projects-dropdown" class="home dropdown header-projects qa-projects-dropdown" data-track-label="projects_dropdown" data-track-event="click_dropdown" data-track-value=""><button class="btn" data-toggle="dropdown" type="button">
-Projects
-<svg class="caret-down"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-down"></use></svg>
-</button>
-<div class="dropdown-menu frequent-items-dropdown-menu">
-<div class="frequent-items-dropdown-container">
-<div class="frequent-items-dropdown-sidebar qa-projects-dropdown-sidebar">
-<ul>
-<li class=""><a class="qa-your-projects-link" href="/dashboard/projects">Your projects
-</a></li><li class=""><a href="/dashboard/projects/starred">Starred projects
-</a></li><li class=""><a href="/explore">Explore projects
-</a></li></ul>
-</div>
-<div class="frequent-items-dropdown-content">
-<div data-project-id="5992673" data-project-name="data-team" data-project-namespace="gamesystems / data-team" data-project-web-url="/gamesystems/data-team" data-user-name="avivshany" id="js-projects-dropdown"></div>
-</div>
-</div>
-
-</div>
-</li><li id="nav-groups-dropdown" class="home dropdown header-groups qa-groups-dropdown" data-track-label="groups_dropdown" data-track-event="click_dropdown" data-track-value=""><button class="btn" data-toggle="dropdown" type="button">
-Groups
-<svg class="caret-down"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-down"></use></svg>
-</button>
-<div class="dropdown-menu frequent-items-dropdown-menu">
-<div class="frequent-items-dropdown-container">
-<div class="frequent-items-dropdown-sidebar qa-groups-dropdown-sidebar">
-<ul>
-<li class=""><a class="qa-your-groups-link" href="/dashboard/groups">Your groups
-</a></li><li class=""><a href="/explore/groups">Explore groups
-</a></li></ul>
-</div>
-<div class="frequent-items-dropdown-content">
-<div data-user-name="avivshany" id="js-groups-dropdown"></div>
-</div>
-</div>
-
-</div>
-</li><li class="d-none d-xl-block d-lg-block"><a class="dashboard-shortcuts-activity" href="/dashboard/activity">Activity
-</a></li><li class="d-none d-xl-block d-lg-block"><a class="dashboard-shortcuts-milestones" href="/dashboard/milestones">Milestones
-</a></li><li class="d-none d-xl-block d-lg-block"><a class="dashboard-shortcuts-snippets qa-snippets-link" href="/dashboard/snippets">Snippets
-</a></li><li class="d-lg-none d-xl-none dropdown header-more">
-<a data-toggle="dropdown" href="#">
-More
-<svg class="caret-down"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-down"></use></svg>
-</a>
-<div class="dropdown-menu">
-<ul>
-<li class=""><a href="/dashboard/activity">Activity
-</a></li><li class=""><a class="dashboard-shortcuts-milestones" href="/dashboard/milestones">Milestones
-</a></li><li class=""><a class="dashboard-shortcuts-snippets" href="/dashboard/snippets">Snippets
-</a></li><li class="dropdown d-lg-none">
-<a class="dropdown-item" href="/-/operations">Operations
-</a>
-</li>
-</ul>
-</div>
-</li>
-<li class="hidden">
-<a class="dashboard-shortcuts-projects" href="/dashboard/projects">Projects
-</a></li>
-<li class="d-lg-block d-none dropdown">
-<button aria-expanded="false" aria-haspopup="true" aria-label="Operations Dashboard" class="btn-link" data-toggle="dropdown" id="js-dashboards-menu" type="button">
-<svg class="s18"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#dashboard"></use></svg>
-</button>
-<div aria-labelledby="js-dashboards-menu" class="dropdown-menu">
-<div class="dropdown-bold-header">
-Dashboards
-</div>
-<a class="dropdown-item" href="/-/operations">Operations
-</a>
-</div>
-
-</li>
-
-</ul>
-
-</div>
-<div class="navbar-collapse collapse">
-<ul class="nav navbar-nav">
-<li class="header-new dropdown" data-track-event="click_dropdown" data-track-label="new_dropdown" data-track-value="">
-<a class="header-new-dropdown-toggle has-tooltip qa-new-menu-toggle" id="js-onboarding-new-project-link" title="New..." ref="tooltip" aria-label="New..." data-toggle="dropdown" data-placement="bottom" data-container="body" data-display="static" href="/projects/new"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#plus-square"></use></svg>
-<svg class="caret-down"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-down"></use></svg>
-</a><div class="dropdown-menu dropdown-menu-right">
-<ul>
-<li class="dropdown-bold-header">
-This project
-</li>
-<li><a href="/gamesystems/data-team/issues/new">New issue</a></li>
-<li><a href="/gamesystems/data-team/merge_requests/new">New merge request</a></li>
-<li><a href="/gamesystems/data-team/snippets/new">New snippet</a></li>
-<li class="divider"></li>
-<li class="dropdown-bold-header">GitLab</li>
-<li><a class="qa-global-new-project-link" href="/projects/new">New project</a></li>
-<li><a href="/groups/new">New group</a></li>
-<li><a class="qa-global-new-snippet-link" href="/snippets/new">New snippet</a></li>
-</ul>
-</div>
-</li>
-
-<li class="nav-item d-none d-sm-none d-md-block m-auto">
-<div class="search search-form" data-track-event="activate_form_input" data-track-label="navbar_search" data-track-value="">
-<form class="form-inline" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><div class="search-input-container">
-<div class="search-input-wrap">
-<div class="dropdown" data-url="/search/autocomplete">
-<input type="search" name="search" id="search" placeholder="Search or jump to…" class="search-input dropdown-menu-toggle no-outline js-search-dashboard-options" spellcheck="false" tabindex="1" autocomplete="off" data-issues-path="/dashboard/issues" data-mr-path="/dashboard/merge_requests" aria-label="Search or jump to…" />
-<button class="hidden js-dropdown-search-toggle" data-toggle="dropdown" type="button"></button>
-<div class="dropdown-menu dropdown-select js-dashboard-search-options">
-<div class="dropdown-content"><ul>
-<li class="dropdown-menu-empty-item">
-<a>
-Loading...
-</a>
-</li>
-</ul>
-</div><div class="dropdown-loading"><i aria-hidden="true" data-hidden="true" class="fa fa-spinner fa-spin"></i></div>
-</div>
-<svg class="s16 search-icon"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#search"></use></svg>
-<svg class="s16 clear-icon js-clear-input"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#close"></use></svg>
-</div>
-</div>
-</div>
-<input type="hidden" name="group_id" id="group_id" class="js-search-group-options" />
-<input type="hidden" name="project_id" id="search_project_id" value="5992673" class="js-search-project-options" data-project-path="data-team" data-name="data-team" data-issues-path="/gamesystems/data-team/issues" data-mr-path="/gamesystems/data-team/merge_requests" data-issues-disabled="false" />
-<input type="hidden" name="search_code" id="search_code" value="true" />
-<input type="hidden" name="repository_ref" id="repository_ref" value="master" />
-
-<div class="search-autocomplete-opts hide" data-autocomplete-path="/search/autocomplete" data-autocomplete-project-id="5992673" data-autocomplete-project-ref="master"></div>
-</form></div>
-
-</li>
-<li class="nav-item d-inline-block d-sm-none d-md-none">
-<a title="Search" aria-label="Search" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/search?project_id=5992673"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#search"></use></svg>
-</a></li>
-<li class="user-counter"><a title="Issues" class="dashboard-shortcuts-issues" aria-label="Issues" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/dashboard/issues?assignee_username=avivshany"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#issues"></use></svg>
-<span class="badge badge-pill green-badge issues-count">
-8
-</span>
-</a></li><li class="user-counter"><a title="Merge requests" class="dashboard-shortcuts-merge_requests" aria-label="Merge requests" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/dashboard/merge_requests?assignee_username=avivshany"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#git-merge"></use></svg>
-<span class="badge badge-pill merge-requests-count">
-2
-</span>
-</a></li><li class="user-counter"><a title="To-Do List" aria-label="To-Do List" class="shortcuts-todos" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/dashboard/todos"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#todo-done"></use></svg>
-<span class="badge badge-pill todos-count">
-11
-</span>
-</a></li><li class="nav-item header-help dropdown">
-<a class="header-help-dropdown-toggle" data-toggle="dropdown" href="/help"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#question"></use></svg>
-<svg class="caret-down"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-down"></use></svg>
-</a><div class="dropdown-menu dropdown-menu-right">
-<ul>
-<li>
-<a href="/help">Help</a>
-</li>
-
-<li class="divider"></li>
-<li>
-<a href="https://about.gitlab.com/submit-feedback">Submit feedback</a>
-</li>
-<li>
-<a target="_blank" class="text-nowrap" href="https://about.gitlab.com/contributing">Contribute to GitLab
-</a></li>
-
-
-
-<li class="js-canary-link">
-<a href="https://next.gitlab.com/">Switch to GitLab Next</a>
-</li>
-</ul>
-
-</div>
-</li>
-<li class="nav-item header-user dropdown" data-qa-selector="user_menu" data-track-event="click_dropdown" data-track-label="profile_dropdown" data-track-value="">
-<a class="header-user-dropdown-toggle" data-toggle="dropdown" href="/avivshany"><img width="23" height="23" class="header-user-avatar qa-user-avatar lazy" data-src="https://secure.gravatar.com/avatar/af23ea96acd6c06ac1771a106be37ca0?s=46&amp;d=identicon" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
-<svg class="caret-down"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-down"></use></svg>
-</a><div class="dropdown-menu dropdown-menu-right">
-<ul>
-<li class="current-user">
-<div class="user-name bold">
-Aviv Shany
-</div>
-@avivshany
-</li>
-<li class="divider"></li>
-<li>
-<div class="js-set-status-modal-trigger" data-has-status="false"></div>
-</li>
-<li>
-<a class="profile-link" data-user="avivshany" href="/avivshany">Profile</a>
-</li>
-<li>
-<a data-qa-selector="settings_link" href="/profile">Settings</a>
-</li>
-<li class="divider"></li>
-<li>
-<a class="sign-out-link" data-qa-selector="sign_out_link" href="/users/sign_out">Sign out</a>
-</li>
-</ul>
-
-</div>
-</li>
-</ul>
-</div>
-<button class="navbar-toggler d-block d-sm-none" type="button">
-<span class="sr-only">Toggle navigation</span>
-<svg class="s12 more-icon js-navbar-toggle-right"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#ellipsis_h"></use></svg>
-<svg class="s12 close-icon js-navbar-toggle-left"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#close"></use></svg>
-</button>
-</div>
-</div>
-</header>
-<div class="js-set-status-modal-wrapper" data-current-emoji="" data-current-message=""></div>
-
-<div class="layout-page page-with-contextual-sidebar">
-<div class="nav-sidebar">
-<div class="nav-sidebar-inner-scroll">
-<div class="context-header">
-<a title="data-team" href="/gamesystems/data-team"><div class="avatar-container rect-avatar s40 project-avatar">
-<div class="avatar s40 avatar-tile identicon bg2">D</div>
-</div>
-<div class="sidebar-context-title">
-data-team
-</div>
-</a></div>
-<ul class="sidebar-top-level-items">
-<li class="home"><a class="shortcuts-project qa-link-project" href="/gamesystems/data-team"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#home"></use></svg>
-</div>
-<span class="nav-item-name">
-Project
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team"><strong class="fly-out-top-item-name">
-Project
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Project details" class="shortcuts-project" href="/gamesystems/data-team"><span>Details</span>
-</a></li><li class=""><a title="Activity" class="shortcuts-project-activity qa-activity-link" href="/gamesystems/data-team/activity"><span>Activity</span>
-</a></li><li class=""><a title="Releases" class="shortcuts-project-releases" href="/gamesystems/data-team/-/releases"><span>Releases</span>
-</a></li>
-
-<li class=""><a title="Cycle Analytics" class="shortcuts-project-cycle-analytics" href="/gamesystems/data-team/cycle_analytics"><span>Cycle Analytics</span>
-</a></li>
-</ul>
-</li><li class="active"><a class="shortcuts-tree qa-project-menu-repo" href="/gamesystems/data-team/tree/master"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#doc-text"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-repo-link">
-Repository
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item active"><a href="/gamesystems/data-team/tree/master"><strong class="fly-out-top-item-name">
-Repository
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class="active"><a href="/gamesystems/data-team/tree/master">Files
-</a></li><li class=""><a id="js-onboarding-commits-link" href="/gamesystems/data-team/commits/master">Commits
-</a></li><li class=""><a class="qa-branches-link" id="js-onboarding-branches-link" href="/gamesystems/data-team/-/branches">Branches
-</a></li><li class=""><a href="/gamesystems/data-team/-/tags">Tags
-</a></li><li class=""><a href="/gamesystems/data-team/-/graphs/master">Contributors
-</a></li><li class=""><a href="/gamesystems/data-team/-/network/master">Graph
-</a></li><li class=""><a href="/gamesystems/data-team/compare?from=master&amp;to=master">Compare
-</a></li><li class=""><a href="/gamesystems/data-team/-/graphs/master/charts">Charts
-</a></li>
-</ul>
-</li><li class=""><a class="shortcuts-issues qa-issues-item" href="/gamesystems/data-team/issues"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#issues"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-issues-link">
-Issues
-</span>
-<span class="badge badge-pill count issue_counter">
-51
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/issues"><strong class="fly-out-top-item-name">
-Issues
-</strong>
-<span class="badge badge-pill count issue_counter fly-out-badge">
-51
-</span>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Issues" href="/gamesystems/data-team/issues"><span>
-List
-</span>
-</a></li><li class=""><a title="Boards" href="/gamesystems/data-team/-/boards"><span>
-Boards
-</span>
-</a></li><li class=""><a title="Labels" class="qa-labels-link" href="/gamesystems/data-team/-/labels"><span>
-Labels
-</span>
-</a></li>
-<li class=""><a title="Milestones" class="qa-milestones-link" href="/gamesystems/data-team/-/milestones"><span>
-Milestones
-</span>
-</a></li></ul>
-</li><li class=""><a class="shortcuts-merge_requests qa-merge-requests-link" href="/gamesystems/data-team/merge_requests"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#git-merge"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-mr-link">
-Merge Requests
-</span>
-<span class="badge badge-pill count merge_counter js-merge-counter">
-5
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/merge_requests"><strong class="fly-out-top-item-name">
-Merge Requests
-</strong>
-<span class="badge badge-pill count merge_counter js-merge-counter fly-out-badge">
-5
-</span>
-</a></li></ul>
-</li><li class=""><a class="shortcuts-pipelines qa-link-pipelines" href="/gamesystems/data-team/pipelines"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#rocket"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-pipelines-link">
-CI / CD
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/pipelines"><strong class="fly-out-top-item-name">
-CI / CD
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Pipelines" class="shortcuts-pipelines" href="/gamesystems/data-team/pipelines"><span>
-Pipelines
-</span>
-</a></li><li class=""><a title="Jobs" class="shortcuts-builds" href="/gamesystems/data-team/-/jobs"><span>
-Jobs
-</span>
-</a></li><li class=""><a title="Schedules" class="shortcuts-builds" href="/gamesystems/data-team/pipeline_schedules"><span>
-Schedules
-</span>
-</a></li><li class=""><a title="Charts" class="shortcuts-pipelines-charts" href="/gamesystems/data-team/pipelines/charts"><span>
-Charts
-</span>
-</a></li></ul>
-</li><li class=""><a class="shortcuts-operations qa-link-operations" href="/gamesystems/data-team/environments/metrics"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#cloud-gear"></use></svg>
-</div>
-<span class="nav-item-name">
-Operations
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/environments/metrics"><strong class="fly-out-top-item-name">
-Operations
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Metrics" class="shortcuts-metrics" href="/gamesystems/data-team/environments/metrics"><span>
-Metrics
-</span>
-</a></li>
-<li class=""><a title="Environments" class="shortcuts-environments qa-operations-environments-link" href="/gamesystems/data-team/environments"><span>
-Environments
-</span>
-</a></li><li class=""><a title="Error Tracking" class="shortcuts-tracking qa-operations-tracking-link" href="/gamesystems/data-team/error_tracking"><span>
-Error Tracking
-</span>
-</a></li><li class=""><a title="Serverless" href="/gamesystems/data-team/serverless/functions"><span>
-Serverless
-</span>
-</a></li><li class=""><a title="Kubernetes" class="shortcuts-kubernetes" href="/gamesystems/data-team/clusters"><span>
-Kubernetes
-</span>
-<div class="feature-highlight js-feature-highlight" data-container="body" data-dismiss-endpoint="/-/user_callouts" data-highlight="gke_cluster_integration" data-placement="right" data-toggle="popover" data-trigger="manual" disabled></div>
-</a><div class="feature-highlight-popover-content">
-<img class="feature-highlight-illustration lazy" data-src="https://assets.gitlab-static.net/assets/illustrations/cluster_popover-9830388038d966d8d64d43576808f9d5ba05f639a78a40bae9a5ddc7cbf72f24.svg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
-<div class="feature-highlight-popover-sub-content">
-<p>Allows you to add and manage Kubernetes clusters.</p>
-<p>
-Protip:
-<a href="/help/topics/autodevops/index.md">Auto DevOps</a>
-<span>uses Kubernetes clusters to deploy your code!</span>
-</p>
-<hr>
-<button class="btn btn-success btn-sm dismiss-feature-highlight" type="button">
-<span>Got it!</span>
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#thumb-up"></use></svg>
-</button>
-</div>
-</div>
-</li>
-</ul>
-</li><li class=""><a href="/gamesystems/data-team/container_registry"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#package"></use></svg>
-</div>
-<span class="nav-item-name">
-Packages
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/container_registry"><strong class="fly-out-top-item-name">
-Packages
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a class="shortcuts-container-registry" title="Container Registry" href="/gamesystems/data-team/container_registry"><span>Container Registry</span>
-</a></li></ul>
-</li>
-<li class=""><a class="shortcuts-wiki qa-wiki-link" href="/gamesystems/data-team/wikis/home"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#book"></use></svg>
-</div>
-<span class="nav-item-name">
-Wiki
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/wikis/home"><strong class="fly-out-top-item-name">
-Wiki
-</strong>
-</a></li></ul>
-</li><li class=""><a class="shortcuts-snippets" href="/gamesystems/data-team/snippets"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#snippet"></use></svg>
-</div>
-<span class="nav-item-name">
-Snippets
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/snippets"><strong class="fly-out-top-item-name">
-Snippets
-</strong>
-</a></li></ul>
-</li><li class=""><a class="shortcuts-tree" href="/gamesystems/data-team/edit"><div class="nav-icon-container">
-<svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#settings"></use></svg>
-</div>
-<span class="nav-item-name qa-settings-item" id="js-onboarding-settings-link">
-Settings
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gamesystems/data-team/edit"><strong class="fly-out-top-item-name">
-Settings
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="General" class="qa-general-settings-link" href="/gamesystems/data-team/edit"><span>
-General
-</span>
-</a></li><li class=""><a title="Members" class="qa-link-members-settings" id="js-onboarding-settings-members-link" href="/gamesystems/data-team/-/project_members"><span>
-Members
-</span>
-</a></li><li class=""><a title="Integrations" href="/gamesystems/data-team/-/settings/integrations"><span>
-Integrations
-</span>
-</a></li><li class=""><a title="Repository" href="/gamesystems/data-team/-/settings/repository"><span>
-Repository
-</span>
-</a></li><li class=""><a title="CI / CD" href="/gamesystems/data-team/-/settings/ci_cd"><span>
-CI / CD
-</span>
-</a></li><li class=""><a title="Operations" href="/gamesystems/data-team/-/settings/operations">Operations
-</a></li><li class=""><a title="Pages" href="/gamesystems/data-team/pages"><span>
-Pages
-</span>
-</a></li><li class=""><a title="Audit Events" href="/gamesystems/data-team/audit_events">Audit Events
-</a></li>
-</ul>
-</li><a class="toggle-sidebar-button js-toggle-sidebar qa-toggle-sidebar" role="button" title="Toggle sidebar" type="button">
-<svg class="icon-angle-double-left"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-double-left"></use></svg>
-<svg class="icon-angle-double-right"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-double-right"></use></svg>
-<span class="collapse-text">Collapse sidebar</span>
-</a>
-<button name="button" type="button" class="close-nav-button"><svg class="s16"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#close"></use></svg>
-<span class="collapse-text">Close sidebar</span>
-</button>
-<li class="hidden">
-<a title="Activity" class="shortcuts-project-activity" href="/gamesystems/data-team/activity"><span>
-Activity
-</span>
-</a></li>
-<li class="hidden">
-<a title="Network" class="shortcuts-network" href="/gamesystems/data-team/-/network/master">Graph
-</a></li>
-<li class="hidden">
-<a title="Charts" class="shortcuts-repository-charts" href="/gamesystems/data-team/-/graphs/master/charts">Charts
-</a></li>
-<li class="hidden">
-<a class="shortcuts-new-issue" href="/gamesystems/data-team/issues/new">Create a new issue
-</a></li>
-<li class="hidden">
-<a title="Jobs" class="shortcuts-builds" href="/gamesystems/data-team/-/jobs">Jobs
-</a></li>
-<li class="hidden">
-<a title="Commits" class="shortcuts-commits" href="/gamesystems/data-team/commits/master">Commits
-</a></li>
-<li class="hidden">
-<a title="Issue Boards" class="shortcuts-issue-boards" href="/gamesystems/data-team/-/boards">Issue Boards</a>
-</li>
-</ul>
-</div>
-</div>
-
-<div class="content-wrapper">
-
-<div class="mobile-overlay"></div>
-<div class="alert-wrapper">
-
-
-
-
-
-
-<nav class="breadcrumbs container-fluid container-limited" role="navigation">
-<div class="breadcrumbs-container">
-<button name="button" type="button" class="toggle-mobile-nav"><span class="sr-only">Open sidebar</span>
-<i aria-hidden="true" data-hidden="true" class="fa fa-bars"></i>
-</button><div class="breadcrumbs-links js-title-container">
-<ul class="list-unstyled breadcrumbs-list js-breadcrumbs-list">
-<li><a class="group-path breadcrumb-item-text js-breadcrumb-item-text " href="/gamesystems">gamesystems</a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-right"></use></svg></li> <li><a href="/gamesystems/data-team"><span class="breadcrumb-item-text js-breadcrumb-item-text">data-team</span></a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#angle-right"></use></svg></li>
-
-<li>
-<h2 class="breadcrumbs-sub-title"><a href="/gamesystems/data-team/blob/master/utils/flexiplots.py">Repository</a></h2>
-</li>
-</ul>
-</div>
-
-</div>
-</nav>
-
-<div class="flash-container flash-container-page">
-</div>
-
-<div class="d-flex"></div>
-</div>
-<div class=" ">
-<div class="content" id="content-body">
-<div class="js-signature-container" data-signatures-path="/gamesystems/data-team/commits/79056d071ea650a2df71babade7597bf5e0b2ffb/signatures"></div>
-<div class="container-fluid container-limited">
-
-<div class="tree-holder" id="tree-holder">
-<div class="nav-block">
-<div class="tree-ref-container">
-<div class="tree-ref-holder">
-<form class="project-refs-form" action="/gamesystems/data-team/refs/switch" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="destination" id="destination" value="blob" />
-<input type="hidden" name="path" id="path" value="utils/flexiplots.py" />
-<div class="dropdown">
-<button class="dropdown-menu-toggle js-project-refs-dropdown qa-branches-select" type="button" data-toggle="dropdown" data-selected="master" data-ref="master" data-refs-url="/gamesystems/data-team/refs?sort=updated_desc" data-field-name="ref" data-submit-form-on-click="true" data-visit="true"><span class="dropdown-toggle-text ">master</span><i aria-hidden="true" data-hidden="true" class="fa fa-chevron-down"></i></button>
-<div class="dropdown-menu dropdown-menu-paging dropdown-menu-selectable git-revision-dropdown qa-branches-dropdown">
-<div class="dropdown-page-one">
-<div class="dropdown-title"><span>Switch branch/tag</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i aria-hidden="true" data-hidden="true" class="fa fa-times dropdown-menu-close-icon"></i></button></div>
-<div class="dropdown-input"><input type="search" id="" class="dropdown-input-field qa-dropdown-input-field" placeholder="Search branches and tags" autocomplete="off" /><i aria-hidden="true" data-hidden="true" class="fa fa-search dropdown-input-search"></i><i aria-hidden="true" data-hidden="true" role="button" class="fa fa-times dropdown-input-clear js-dropdown-input-clear"></i></div>
-<div class="dropdown-content"></div>
-<div class="dropdown-loading"><i aria-hidden="true" data-hidden="true" class="fa fa-spinner fa-spin"></i></div>
-</div>
-</div>
-</div>
-</form>
-</div>
-<ul class="breadcrumb repo-breadcrumb">
-<li class="breadcrumb-item">
-<a href="/gamesystems/data-team/tree/master">data-team
-</a></li>
-<li class="breadcrumb-item">
-<a href="/gamesystems/data-team/tree/master/utils">utils</a>
-</li>
-<li class="breadcrumb-item">
-<a href="/gamesystems/data-team/blob/master/utils/flexiplots.py"><strong>flexiplots.py</strong>
-</a></li>
-</ul>
-</div>
-<div class="tree-controls">
-<a class="btn shortcuts-find-file" rel="nofollow" href="/gamesystems/data-team/find_file/master"><i aria-hidden="true" data-hidden="true" class="fa fa-search"></i>
-<span>Find file</span>
-</a>
-<div class="btn-group" role="group"><a class="btn js-blob-blame-link" href="/gamesystems/data-team/blame/master/utils/flexiplots.py">Blame</a><a class="btn" href="/gamesystems/data-team/commits/master/utils/flexiplots.py">History</a><a class="btn js-data-file-blob-permalink-url" href="/gamesystems/data-team/blob/9ffebf38ff734816d3a1d8f894c2cb2d1bafdc8e/utils/flexiplots.py">Permalink</a></div>
-</div>
-</div>
-
-<div class="info-well d-none d-sm-block">
-<div class="well-segment">
-<ul class="blob-commit-info">
-<li class="commit flex-row js-toggle-container" id="commit-79056d07">
-<div class="avatar-cell d-none d-sm-block">
-<a href="/avivshany"><img alt="Aviv Shany&#39;s avatar" src="https://secure.gravatar.com/avatar/af23ea96acd6c06ac1771a106be37ca0?s=80&amp;d=identicon" class="avatar s40 d-none d-sm-inline" title="Aviv Shany" /></a>
-</div>
-<div class="commit-detail flex-list">
-<div class="commit-content qa-commit-content">
-<a class="commit-row-message item-title js-onboarding-commit-item" href="/gamesystems/data-team/commit/79056d071ea650a2df71babade7597bf5e0b2ffb">fp_update</a>
-<span class="commit-row-message d-inline d-sm-none">
-&middot;
-79056d07
-</span>
-<div class="committer">
-<a class="commit-author-link js-user-link" data-user-id="1132950" href="/avivshany">Aviv Shany</a> authored <time class="js-timeago" title="Jul 28, 2019 9:45pm" datetime="2019-07-28T21:45:04Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jul 28, 2019</time>
-</div>
-
-</div>
-<div class="commit-actions flex-row">
-
-<div class="js-commit-pipeline-status" data-endpoint="/gamesystems/data-team/commit/79056d071ea650a2df71babade7597bf5e0b2ffb/pipelines?ref=master"></div>
-<div class="commit-sha-group d-none d-sm-flex">
-<div class="label label-monospace monospace">
-79056d07
-</div>
-<button class="btn btn btn-default" data-toggle="tooltip" data-placement="bottom" data-container="body" data-title="Copy commit SHA to clipboard" data-class="btn btn-default" data-clipboard-text="79056d071ea650a2df71babade7597bf5e0b2ffb" type="button" title="Copy commit SHA to clipboard" aria-label="Copy commit SHA to clipboard"><svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#duplicate"></use></svg></button>
-
-</div>
-</div>
-</div>
-</li>
-
-</ul>
-</div>
-
-
-</div>
-<div class="blob-content-holder" id="blob-content-holder">
-<article class="file-holder">
-<div class="js-file-title file-title-flex-parent">
-<div class="file-header-content">
-<i aria-hidden="true" data-hidden="true" class="fa fa-file-text-o fa-fw"></i>
-<strong class="file-title-name qa-file-title-name">
-flexiplots.py
-</strong>
-<button class="btn btn-clipboard btn-transparent" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn-clipboard btn-transparent" data-title="Copy file path to clipboard" data-clipboard-text="{&quot;text&quot;:&quot;utils/flexiplots.py&quot;,&quot;gfm&quot;:&quot;`utils/flexiplots.py`&quot;}" type="button" title="Copy file path to clipboard" aria-label="Copy file path to clipboard"><svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#duplicate"></use></svg></button>
-<small class="mr-1">
-52.4 KB
-</small>
-</div>
-
-<div class="file-actions">
-
-<div class="btn-group" role="group"><button class="btn btn btn-sm js-copy-blob-source-btn" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn btn-sm js-copy-blob-source-btn" data-title="Copy source to clipboard" data-clipboard-target=".blob-content[data-blob-id=&#39;62897cdd252cb54350ca68b6ebb36b291f981712&#39;]" type="button" title="Copy source to clipboard" aria-label="Copy source to clipboard"><svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#duplicate"></use></svg></button><a class="btn btn-sm has-tooltip" target="_blank" rel="noopener noreferrer" title="Open raw" data-container="body" href="/gamesystems/data-team/raw/master/utils/flexiplots.py"><i aria-hidden="true" data-hidden="true" class="fa fa-file-code-o"></i></a><a download="utils/flexiplots.py" class="btn btn-sm has-tooltip" target="_blank" rel="noopener noreferrer" title="Download" data-container="body" href="/gamesystems/data-team/raw/master/utils/flexiplots.py?inline=false"><svg><use xlink:href="https://gitlab.com/assets/icons-d2ccb0e13086d398012c6c445cbd9fc0ed64fb5278cafd89f8be8e0a33a85383.svg#download"></use></svg></a></div>
-<div class="btn-group" role="group">
-<a class="btn js-edit-blob  btn-sm" href="/gamesystems/data-team/edit/master/utils/flexiplots.py">Edit</a><a class="btn btn-default btn-sm" href="/-/ide/project/gamesystems/data-team/edit/master/-/utils/flexiplots.py">Web IDE</a><button name="button" type="submit" class="btn btn-default" data-target="#modal-upload-blob" data-toggle="modal">Replace</button><button name="button" type="submit" class="btn btn-remove" data-target="#modal-remove-blob" data-toggle="modal">Delete</button></div>
-</div>
-</div>
-<div class="js-file-fork-suggestion-section file-fork-suggestion hidden">
-<span class="file-fork-suggestion-note">
-You're not allowed to
-<span class="js-file-fork-suggestion-section-action">
-edit
-</span>
-files in this project directly. Please fork this project,
-make your changes there, and submit a merge request.
-</span>
-<a class="js-fork-suggestion-button btn btn-grouped btn-inverted btn-success" rel="nofollow" data-method="post" href="/gamesystems/data-team/blob/master/utils/flexiplots.py">Fork</a>
-<button class="js-cancel-fork-suggestion-button btn btn-grouped" type="button">
-Cancel
-</button>
-</div>
-
-
-
-<div class="blob-viewer" data-type="simple" data-url="/gamesystems/data-team/blob/master/utils/flexiplots.py?format=json&amp;viewer=simple">
-<div class="text-center prepend-top-default append-bottom-default">
-<i aria-hidden="true" aria-label="Loading content…" class="fa fa-spinner fa-spin fa-2x qa-spinner"></i>
-</div>
-
-</div>
-
-
-</article>
-</div>
-
-<div class="modal" id="modal-remove-blob">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-<h3 class="page-title">Delete flexiplots.py</h3>
-<button aria-label="Close" class="close" data-dismiss="modal" type="button">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<form class="js-delete-blob-form js-quick-submit js-requires-input" action="/gamesystems/data-team/blob/master/utils/flexiplots.py" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="authenticity_token" value="dkruV8Zm3ceVF01Ez8pK4gQdha9mjlYnPj7ejkjn0zaXEm++aQQ2BuEj1VmqDiP4l9jXIaUzegL0ZNowm2nbCg==" /><div class="form-group row commit_message-group">
-<label class="col-form-label col-sm-2" for="commit_message-70a1af659697d8df4c4d549e07691dc0">Commit message
-</label><div class="col-sm-10">
-<div class="commit-message-container">
-<div class="max-width-marker"></div>
-<textarea name="commit_message" id="commit_message-70a1af659697d8df4c4d549e07691dc0" class="form-control js-commit-message" placeholder="Delete flexiplots.py" required="required" rows="3">
-Delete flexiplots.py</textarea>
-</div>
-</div>
-</div>
-
-<div class="form-group row branch">
-<label class="col-form-label col-sm-2" for="branch_name">Target Branch</label>
-<div class="col-sm-10">
-<input type="text" name="branch_name" id="branch_name" value="patch-1" required="required" class="form-control js-branch-name ref-name" />
-<div class="js-create-merge-request-container">
-<div class="form-check prepend-top-8">
-<input type="checkbox" name="create_merge_request" id="create_merge_request-5050e8484368d2e09d569e939bce8d18" value="1" class="js-create-merge-request form-check-input" checked="checked" />
-<label class="form-check-label" for="create_merge_request-5050e8484368d2e09d569e939bce8d18">Start a <strong>new merge request</strong> with these changes
-</label></div>
-
-</div>
-</div>
-</div>
-<input type="hidden" name="original_branch" id="original_branch" value="master" class="js-original-branch" />
-
-<div class="form-group row">
-<div class="offset-sm-2 col-sm-10">
-<button name="button" type="submit" class="btn btn-remove btn-remove-file">Delete file</button>
-<a class="btn btn-cancel" data-dismiss="modal" href="#">Cancel</a>
-</div>
-</div>
-</form></div>
-</div>
-</div>
-</div>
-
-<div class="modal" id="modal-upload-blob">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h3 class="page-title">Replace flexiplots.py</h3>
-<button aria-label="Close" class="close" data-dismiss="modal" type="button">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<form class="js-quick-submit js-upload-blob-form" data-method="put" action="/gamesystems/data-team/update/master/utils/flexiplots.py" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="NF/P4hGYZOnoEoEGIzbhMpLxRxypNJBdq5mIo5SCs5nVB04LvvqPKJwmGRtG8ogoATQVkmqJvHhhw4wdRwy7pQ==" /><div class="dropzone">
-<div class="dropzone-previews blob-upload-dropzone-previews">
-<p class="dz-message light">
-Attach a file by drag &amp; drop or <a class="markdown-selector" href="#">click to upload</a>
-</p>
-</div>
-</div>
-<br>
-<div class="dropzone-alerts alert alert-danger data" style="display:none"></div>
-<div class="form-group row commit_message-group">
-<label class="col-form-label col-sm-2" for="commit_message-9a3626fce003db6cf42f73b03066eb71">Commit message
-</label><div class="col-sm-10">
-<div class="commit-message-container">
-<div class="max-width-marker"></div>
-<textarea name="commit_message" id="commit_message-9a3626fce003db6cf42f73b03066eb71" class="form-control js-commit-message" placeholder="Replace flexiplots.py" required="required" rows="3">
-Replace flexiplots.py</textarea>
-</div>
-</div>
-</div>
-
-<div class="form-group row branch">
-<label class="col-form-label col-sm-2" for="branch_name">Target Branch</label>
-<div class="col-sm-10">
-<input type="text" name="branch_name" id="branch_name" value="patch-1" required="required" class="form-control js-branch-name ref-name" />
-<div class="js-create-merge-request-container">
-<div class="form-check prepend-top-8">
-<input type="checkbox" name="create_merge_request" id="create_merge_request-0bf609f745cde2c53ed54b2fc95fd0d4" value="1" class="js-create-merge-request form-check-input" checked="checked" />
-<label class="form-check-label" for="create_merge_request-0bf609f745cde2c53ed54b2fc95fd0d4">Start a <strong>new merge request</strong> with these changes
-</label></div>
-
-</div>
-</div>
-</div>
-<input type="hidden" name="original_branch" id="original_branch" value="master" class="js-original-branch" />
-
-<div class="form-actions">
-<button name="button" type="button" class="btn btn-success btn-upload-file" id="submit-all"><i aria-hidden="true" data-hidden="true" class="fa fa-spin fa-spinner js-loading-icon hidden"></i>
-Replace file
-</button><a class="btn btn-cancel" data-dismiss="modal" href="#">Cancel</a>
-
-</div>
-</form></div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-
-
-
-</body>
-</html>
+
+# coding: utf-8
+
+import pandas as pd
+import numpy as np
+from scipy import stats
+import math
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import seaborn as sns
+import logging
+
+logger = logging.getLogger('app')
+logger.setLevel(logging.DEBUG)
+
+colormap = ['royalblue', 'tomato', 'orchid', 'mediumseagreen',
+            'sandybrown', 'mediumturkuoise', 'khaki', 'lightpink']
+
+
+class FlexiGrid(object):
+    """
+    A class for creating a matplotlib subplots grid. Includes different
+    methods for visualizing flexible scatterplots and histograms
+    """
+
+    def __init__(
+        self, df, cols=None, x_vars=None, y_vars=None, show_nans=True,
+        fit_reg=True, show_corr=True, hue=None, standardize=False, **kwargs
+    ):
+        """
+        Initializing FlexiGrid class object
+
+        Args:
+            df: pandas.DataFrame
+            cols: list, optional
+                list of column names from df to use in the plot
+            {x, y}_vars: list, optional
+                list of columns to plot.
+                if one is set, than the other must also be set
+            show_nans: bool, optional
+                if True, shows NaN values in scatter plots
+                and their % in histograms
+            fit_reg: bool, optional
+                if True, draws regression lines in scatterplots
+            show_corr: bool, optional
+                if True, displays pearson correlation value in scatterplots
+            hue: str, optional
+                a column name in df to group by to different colors
+
+        Raises:
+            TypeError:
+                if any of the inputs are not of the expected type
+            KeyError:
+                if any specified variable is not a column in df
+            ValueError:
+                if only one of {x, y}_vars is specified but not the other
+            IndexError:
+                if hue is set but the number of unique values in its column
+                is bigger than the number of colors in hue_kws['colors']
+        """
+        if cols:
+
+            if not isinstance(cols, list):
+                raise TypeError('cols must be a list of column names in df')
+            else:
+                not_cols_in_df_error(df=df, cols=cols)
+
+            if hue:
+                cols = cols + [hue]
+
+            self.df = df[cols].copy()
+
+        else:
+
+            if not isinstance(df, pd.DataFrame):
+                raise TypeError('df must be a pandas.DataFrame')
+
+            self.df = df.copy()
+
+        self.x_vars = x_vars
+        self.y_vars = y_vars
+        self.show_nans = show_nans
+        self.fit_reg = fit_reg
+        self.show_corr = show_corr
+        self.hue = hue
+        self.kwargs = kwargs
+
+        if self.hue:
+
+            if self.df[self.hue].isnull().any():
+                self.df.loc[self.df[self.hue].isnull(), self.hue] = 'NaN'
+
+            self.df[self.hue] = self.df[self.hue].astype('object')
+            self.hues_n = self.df[self.hue].value_counts().to_dict()
+
+        # setting default values for visualization aesthetics 
+        self.settings_kws = {
+            'axis_labels': True, 'ticks_labels': True,
+            'despine': True, 'show_grid': True
+        }
+        self.facets_kws = {
+            'width': 4, 'height': 4, 'axes_label_fontsize': 14
+        }
+        self.scatter_kws = {
+            'alpha': 0.5, 'size': None, 'color': 'royalblue'
+        }
+        self.nan_kws = {
+            'facecolor': 'white', 'lower_by_pct': 0.15, 'jitter_frac': 5
+        }
+        self.line_kws = {
+            'width': 2, 'color': 'red', 'extend_by_pct': 0.05
+        }
+        self.hist_kws = {
+            'alpha': 0.7, 'bins': 50, 'color': 'royalblue',
+            'show_miss_pct': self.show_nans
+        }
+        self.hist_text_kws = {
+            'fontsize': 12, 'color': 'grey', 'pos': (0.75, 0.9)
+        }
+        self.grid_kws = {'alpha': 0.3}
+        self.corr_kws = {
+            'color': 'red', 'alpha': 0.7, 'fontsize': 14, 'pos': (None, 0.95)
+        }
+        self.hue_kws = {
+            'colors': [
+                'royalblue', 'tomato', 'mediumseagreen', 'orchid',
+                'sandybrown', 'mediumturkuoise', 'khaki', 'lightpink'
+            ]
+        }
+
+        # checking that inputs are correct, otherwise raising error
+        if bool(self.x_vars) != bool(self.y_vars):
+            raise ValueError(
+                'if one of x_vars, y_vars is set, the other must be also'
+            )
+
+        if self.x_vars:
+            self.x_vars, self.y_vars = list(x_vars), list(y_vars)
+            all_cols = list(set(self.x_vars + self.y_vars))
+            not_cols_in_df_error(df=self.df, cols=all_cols)
+
+        if self.hue:
+            not_cols_in_df_error(df=self.df, cols=hue)
+            self.n_hues = len(self.df[self.hue].unique())
+
+            if self.n_hues > len(self.hue_kws['colors']):
+                raise IndexError(
+                    """
+                    the function supports up to {} different hues, 
+                    but the hue column has {} unique values
+                    """.format(len(self.hue_kws['colors']), self.n_hues)
+                )
+
+        self.pairgrid = False if self.x_vars else True
+
+        if standardize:
+            self.df = self.df.apply(z_score)
+
+    def set_settings(self):
+        """
+        Change values in *_kws settings if they are entered as kwargs.
+        See the different settings and their values in flexipairs docstring
+        """
+        settings_dicts = [
+            'settings_kws', 'facets_kws', 'scatter_kws', 'line_kws',
+            'hist_kws', 'hist_text_kws', 'corr_kws', 'grid_kws'
+        ]
+
+        for handle, kws in self.kwargs.items():
+
+            if handle in settings_dicts:
+                setting_obj = getattr(self, handle)
+
+                if isinstance(kws, dict):
+
+                    for name, value in kws.items():
+
+                        if name in setting_obj.keys():
+                            setting_obj[name] = value
+                        else:
+                            logger.warning(
+                                '{} is not a key in {}'.format(name, handle)
+                            )
+
+                else:
+                    logger.warning('{} must be a dictionary'.format(handle))
+
+            else:
+                logger.warning(
+                    '{} is not a pre-defined settings argument'.format(handle)
+                )
+
+    def create_grid(self):
+        """
+        Create a plt.subplots fig and axes objects, based on the number of
+        variables used in the grid
+        """
+        if self.pairgrid:
+            colnames = get_df_numeric_cols_list(self.df)
+            self.x_vars = colnames
+            self.y_vars = colnames
+
+        ncols = len(self.y_vars)
+        nrows = len(self.x_vars)
+        size = (
+            (self.facets_kws['width'] * ncols) + ncols,
+            (self.facets_kws['height'] * nrows) + nrows
+        )
+        self.fig, self.axs = plt.subplots(nrows, ncols, figsize=size)
+
+        return self.fig, self.axs
+
+    def _prettify_ax(self, ax, x_col=None, y_col=None):
+        """Set aesthetic settings for each axis, if defined in settings_kws"""
+        if self.settings_kws['show_grid']:
+            ax.grid(alpha=self.grid_kws['alpha'])
+
+        if self.settings_kws['despine']:
+            sns.despine(ax=ax)
+
+        if x_col and y_col:
+
+            if self.settings_kws['axis_labels']:
+                size = self.facets_kws['axes_label_fontsize']
+                ax.set_xlabel(x_col, fontsize=size);
+                ax.set_ylabel(y_col, fontsize=size);
+
+            if not self.settings_kws['ticks_labels']:
+                ax.set_xticklabels([])
+                ax.set_yticklabels([])
+
+    def hist(self, ax, colname):
+        """
+        Plot histogram of a pandas series on a given matplotlib axis.
+        Optionally draws % of missing values
+
+        Args:
+            colname: str
+                name of column in self.df to plot
+            ax: matplotlib subplots axis to plot on
+        """
+        nans_exist = self.df[colname].isnull().any()
+
+        if self.hue:
+            color_num = 0
+
+            for hue_value in self.df[self.hue].unique():
+                cond = self.df[self.hue] == hue_value
+                srs = self.df.loc[cond, colname].copy()
+
+                if self.hist_kws['show_miss_pct'] & nans_exist:
+                    txt_x = self.hist_text_kws['pos'][0]
+                    txt_y_adj = color_num / 12
+                    txt_y = (self.hist_text_kws['pos'][1] + 0.05) - txt_y_adj
+                    self._print_miss_pct(
+                        series=self.df.loc[cond, colname].copy(),
+                        color=self.hue_kws['colors'][color_num],
+                        pos=(txt_x, txt_y),
+                        ax=ax
+                    )
+
+                srs = srs.dropna()
+                sns.kdeplot(
+                    data=srs, color=self.hue_kws['colors'][color_num],
+                    shade=True, legend=False, ax=ax,
+                    label='{} (n={})'.format(hue_value, self.hues_n[hue_value])
+                )
+                color_num += 1
+        else:
+            srs = self.df[colname].copy()
+
+            if self.hist_kws['show_miss_pct'] & nans_exist:
+                self._print_miss_pct(
+                    series=self.df[colname],
+                    color=self.hist_text_kws['color'],
+                    pos=self.hist_text_kws['pos'],
+                    ax=ax
+                )
+
+            srs = srs.dropna()
+            ax.hist(
+                srs, bins=self.hist_kws['bins'],
+                color=self.hist_kws['color'],
+                alpha=self.hist_kws['alpha']
+            )
+
+        self._prettify_ax(ax=ax, x_col=colname, y_col=colname)
+
+        return ax
+
+    def _print_miss_pct(self, series, color, pos, ax):
+        """Helper function for hist to print out % of NaNs on histogram"""
+        n_total = series.size
+        n_missing = series.isnull().sum()
+        missing_pct = round((n_missing / n_total) * 100)
+        ax.annotate(
+            s=str(missing_pct) + '% NaNs',
+            xycoords=ax.transAxes,
+            xy=pos,
+            fontsize=self.hist_text_kws['fontsize'],
+            color=color
+        )
+
+    def _transform_nan(self, df, x_col, y_col):
+        """
+        Helper function for scatter(). Transform a given df with 2
+        columns to be compatible for plotting a scatterplot with NaNs
+
+        Args:
+            df: pandas.DataFrame
+                data to transform
+            {x, y}_col: str
+                names of the two columns used for scatterplot
+
+        Returns:
+            the inputted pandas.DataFrame with these new columns:
+            1.  A bool column named 'NaN' with True for every row with
+                a missing value in either x_col or y_col
+            2.  For each of {x, y}_col, a new columns with '_fillna' prefix
+                where missing values are replaced by the minimum of the
+                column minus 30% of the column range. additionally,
+                these replaced values are added random uniform noise for
+                jitter. the replacement and noise values can be manually
+                set using nan_kws
+
+        Raises:
+            TypeError: if one of the inputs is not in the expected type
+        """
+        not_cols_in_df_error(df, [x_col, y_col])
+        df = df.copy().reset_index(drop=True)
+
+        if x_col == y_col:
+            cols = [x_col, 'NaN']
+            df['NaN'] = (df[x_col].isnull())
+        else:
+            cols = [x_col, y_col, 'NaN']
+            df['NaN'] = (df[x_col].isnull()) | (df[y_col].isnull())
+
+        if self.hue:
+            cols = cols + [self.hue]
+
+        df = df[cols]
+
+        x_col_fillna = x_col + '_fillna'
+        y_col_fillna = y_col + '_fillna'
+        rng_x = df[x_col].max() - df[x_col].min()
+        rng_y = df[y_col].max() - df[y_col].min()
+        lower_x_by = rng_x * self.nan_kws['lower_by_pct']
+        lower_y_by = rng_y * self.nan_kws['lower_by_pct']
+        df[x_col_fillna] = df[x_col].fillna(df[x_col].min() - lower_x_by)
+        df[y_col_fillna] = df[y_col].fillna(df[y_col].min() - lower_y_by)
+        jtr_x = lower_x_by / self.nan_kws['jitter_frac']
+        jtr_y = lower_y_by / self.nan_kws['jitter_frac']
+        jitter_x = pd.Series(
+            np.random.uniform(low=-1*jtr_x, high=jtr_x, size=df.shape[0])
+        )
+        jitter_y = pd.Series(
+            np.random.uniform(low=-1*jtr_y, high=jtr_y, size=df.shape[0])
+        )
+        x_nans = df[x_col].isnull()
+        y_nans = df[y_col].isnull()
+        df.loc[x_nans, x_col_fillna] = df.loc[x_nans, x_col_fillna] + jitter_x
+        df.loc[y_nans, y_col_fillna] = df.loc[y_nans, y_col_fillna] + jitter_y
+
+        return df
+
+    def _regline(self, df, x_col, y_col, ax, color, extend_by=2):
+        """
+        Draw a regression line on a given matplotlib axis.
+        ignores df rows with NaN in any of x_col, y_col
+        """
+        if x_col != y_col:
+            df = df.loc[:, [x_col, y_col]].copy().dropna()
+            slope, intercept, _, _, _ = stats.linregress(df[x_col], df[y_col])
+            x_range = df[x_col].max() - df[x_col].min()
+            line_extend = x_range * self.line_kws['extend_by_pct'] * extend_by
+            line_left_x = df[x_col].min() - line_extend
+            line_right_x = df[x_col].max() + line_extend
+            line_left_y = (slope * line_left_x) + intercept
+            line_right_y = (slope * line_right_x) + intercept
+            ax.plot(
+                [line_left_x, line_right_x], [line_left_y, line_right_y],
+                linewidth=self.line_kws['width'], color=color
+            );
+
+    def _corr(self, df, x_col, y_col, ax, color, pos):
+        """
+        Helper function for scatter().
+        Calculate and show correlation on a matplotlib axis
+        """
+        r = df[x_col].corr(df[y_col])
+        x_pos = pos[0]
+        y_pos = pos[1]
+
+        if not x_pos:
+            x_pos = .15 if r > 0 else .8
+
+        text = 'r=' + str(r.round(2))
+        size = self.corr_kws['fontsize']
+        alpha = self.corr_kws['alpha']
+        ax.annotate(
+            text, xycoords=ax.transAxes, xy=(x_pos, y_pos),
+            fontsize=size, color=color, alpha=alpha
+        )
+
+    def _bound_nans(self, df, x_col, y_col, ax, color='gray'):
+        """
+        Draw lines to mark boundaries between NaNs and
+        complete observations in scatter function
+        """
+        if df[[x_col, y_col]].shape[0] > df[[x_col, y_col]].dropna().shape[0]:
+            rng_x = df[x_col].max() - df[x_col].min()
+            rng_y = df[y_col].max() - df[y_col].min()
+            lower_x_min_by = rng_x * (self.nan_kws['lower_by_pct'] / 2)
+            lower_y_min_by = rng_y * (self.nan_kws['lower_by_pct'] / 2)
+            nan_line_x = df[x_col].min() - lower_x_min_by
+            nan_line_y = df[y_col].min() - lower_y_min_by
+            ax.axvline(x=nan_line_x, color=color)
+            ax.axhline(y=nan_line_y, color=color)
+
+    def scatter(self, x_col, y_col, ax=None):
+        """
+        Draw a scatterplot.
+        optionally showing NaN values, correlation and regression line
+
+        Args:
+            {x, y}_col: columns names in self.df to use for plotting
+            
+        Returns:
+            matplotlib axis with the plot
+        
+        Helper functions:
+            _transform_nan()
+            _regline()
+            _corr()
+            _prettify_ax()
+        """
+        ax = ax if ax else plt.gca()
+        xy_cols = [x_col, y_col]
+
+        if self.show_nans:
+            df = self._transform_nan(self.df, x_col, y_col)
+            nan_cols = xy_cols + ['NaN', x_col+'_fillna', y_col+'_fillna']
+            cols = nan_cols + [self.hue] if self.hue else nan_cols
+            df = df[cols]
+            df['sctr_x'] = df[x_col + '_fillna']
+            df['sctr_y'] = df[y_col + '_fillna']
+            self._bound_nans(df=df, x_col=x_col, y_col=y_col, ax=ax)
+        else:
+            cols = xy_cols + [self.hue] if self.hue else xy_cols
+            df = self.df[cols].dropna(subset=xy_cols)
+            df['NaN'] = False
+            df['sctr_x'] = df[x_col]
+            df['sctr_y'] = df[y_col]
+
+        if self.hue:
+            color_num = 0
+
+            for hue_value in self.df[self.hue].unique():
+                hue_cond = df[self.hue] == hue_value
+                sctr_df = df.loc[hue_cond, ['sctr_x', 'sctr_y', 'NaN']]
+
+                map_colors = {
+                    True: self.nan_kws['facecolor'],
+                    False: self.hue_kws['colors'][color_num]
+                }
+                ax.scatter(
+                    x=sctr_df['sctr_x'],
+                    y=sctr_df['sctr_y'],
+                    alpha=self.scatter_kws['alpha'],
+                    facecolors=sctr_df['NaN'].apply(lambda x: map_colors[x]),
+                    edgecolors=self.hue_kws['colors'][color_num],
+                    s=self.scatter_kws['size'],
+                    label='{} (n={})'.format(hue_value, self.hues_n[hue_value])
+                )
+
+                if self.fit_reg:
+                    self._regline(
+                        df=df.loc[hue_cond, :], x_col=x_col, y_col=y_col,
+                        ax=ax, color=self.hue_kws['colors'][color_num]
+                    )
+
+                if self.show_corr:
+                    y_pos = self.corr_kws['pos'][1]
+                    offset = 0.03
+                    x_pos = (1 / (self.n_hues + 1)) * (color_num + 1) - offset
+                    self._corr(
+                        df=df.loc[hue_cond, :], x_col=x_col, y_col=y_col,
+                        ax=ax, color=self.hue_kws['colors'][color_num],
+                        pos=(x_pos, y_pos)
+                    )
+
+                color_num += 1
+
+        else:
+            map_colors = {
+                True: self.nan_kws['facecolor'],
+                False: self.scatter_kws['color']
+            }
+            ax.scatter(
+                x=df['sctr_x'],
+                y=df['sctr_y'],
+                alpha=self.scatter_kws['alpha'],
+                facecolors=df['NaN'].apply(lambda x: map_colors[x]),
+                edgecolors=self.scatter_kws['color'],
+                s=self.scatter_kws['size']
+            )
+
+            if self.fit_reg:
+                self._regline(
+                    df=df, x_col=x_col, y_col=y_col, ax=ax,
+                    color=self.line_kws['color']
+                )
+
+            if self.show_corr:
+                self._corr(
+                    df=df, x_col=x_col, y_col=y_col, ax=ax,
+                    color=self.corr_kws['color'], pos=self.corr_kws['pos']
+                )
+
+        self._prettify_ax(x_col=x_col, y_col=y_col, ax=ax)
+
+        return ax
+
+
+def flexipairs(
+    df, cols=None, x_vars=None, y_vars=None, show_nans=True, fit_reg=True,
+    show_corr=True, standardize=False, plt_style='seaborn', hue=None,
+    legend_loc=(1, 0.9), legend_fontsize=14, legend_title_fontsize=16, **kwargs
+):
+    """
+    Plot pairwise relationships in a dataframe.
+    Optionally showing missing values, correlations, and regression lines.
+
+    By default, plots a grid of matplotlib subplots axes where each variable
+    in df is mapped to a row and a column. Histograms are shown on the
+    diagonal of the grid and scatterplots on all other axes.
+
+    It is also possible to select specific variables to be shown separately
+    on the grid rows and columns by setting x_vars and y_vars.
+    in this case all facets will show scatterplots
+    
+    The default aesthetics are set in the *_kws dictionaries shown below.
+    to adjust these settings enter the name of the *_kws object as an
+    argument and assign to it a dictionary with the settings names to change
+    as their new values. for example to show the regression lines in black
+    instead of red add the folllowing argument when calling the function:
+    flexipairs(df, line_kws={'color': 'black'})
+
+    Args:
+        df pandas.DataFrame
+            the data to plot
+        cols: list, optional
+            list of column names from df to use in the plot
+        {x, y}_vars. string or list of strings, optional
+            names of columns in df to show on each axis.
+            if one is set the other must be set also. in this case, the
+            grid doesn't have to be a square and no histograms will be shown
+        show_nans: bool, optional
+            if True, plot missing values in gray on the scatterplots
+            and prints the percentege of missing value for each variable
+            on its histogram
+        fit_reg: bool, optional
+            if True, draws regression lines on the scatterplots
+        show_corr: bool, optional
+            if True, prints pearson correlation coeffs on the scatterplots
+        hue: str, optional
+            a column name in df to group by to different colors
+        plt_style:
+            matplotlib style to use
+        legend_fontsize: int, optional
+            font size to use in the legend
+        legend_loc: tuple of length 2, optional
+            legend location to be used in figlegend bbox_to_anchor
+
+    Returns:
+        figure and axes from a matplotlib subplots grid
+        
+    Raises:
+        TypeError: if df is not a pandas.DataFrame
+        TypeError: if {x, y}_vars are set and they are not lists of strings
+        KeyError: if df has less then 2 columns
+        KeyError: if variables specified in {x, y}_vars are not columns in df
+        
+    Aesthetic settings:
+        settings_kws = {'axis_labels': True, 'ticks_labels': True,
+                        'despine': True, 'show_grid': True}
+        facets_kws = {'width': 4, 'height': 4, 'axes_label_fontsize': 16}
+        scatter_kws = {'alpha': 0.5, 'size': None, 'color': 'royalblue'}
+        nan_kws = {'color': 'grey', 'lower_by_pct': 0.25, 'jitter_frac': 5}
+        line_kws = {'width': 2, 'color': 'red', 'extend_by_pct': 0.05}
+        hist_kws = {'alpha': 0.7, 'bins': 50, 'color': 'royalblue',
+                    'show_miss_pct': self.show_nans}
+        hist_text_kws = {'fontsize': 12, 'color': 'grey', 'pos': (0.7, 0.85)}
+        grid_kws = {'alpha': 0.3}
+        corr_kws = {'color': 'red', 'alpha' :0.7} 
+    """
+    # check: df must have at least 2 columns.
+    # if *_vars is a string convert it to list
+    obj = FlexiGrid(
+        df, x_vars=x_vars, y_vars=y_vars, show_nans=show_nans,
+        fit_reg=fit_reg, show_corr=show_corr, hue=hue,
+        standardize=standardize, **kwargs
+    )
+    obj.set_settings()
+    fig, axs = obj.create_grid()
+
+    for grid_row in range(len(obj.x_vars)):
+
+        for grid_col in range(len(obj.y_vars)):
+
+            x_col = obj.x_vars[grid_row]
+            y_col = obj.y_vars[grid_col]
+
+            if obj.pairgrid and grid_row == grid_col:
+                curr_ax = axs[grid_row, grid_col]
+                obj.hist(ax=curr_ax, colname=x_col)
+            else:
+
+                if not isinstance(axs, np.ndarray):
+                    # applys when both of x_vars, y_vars are of length 1
+                    curr_ax = axs
+                elif len(axs.shape) == 1:
+                    # applies when only one of x_vars, y_vars is of length 1
+
+                    if len(y_vars) == 1:
+                        curr_ax = axs[grid_row]
+                    elif len(x_vars) == 1:
+                        curr_ax = axs[grid_col]
+
+                else:
+                    curr_ax = axs[grid_row, grid_col]
+
+                obj.scatter(x_col=x_col, y_col=y_col, ax=curr_ax)
+    if hue:
+        _draw_figlegend_from_ax(
+            fig=fig, ax=curr_ax,
+            loc=legend_loc, title=hue,
+            fontsize=legend_fontsize, title_size=legend_title_fontsize
+        )
+
+    fig.tight_layout();
+
+    return fig, axs
+
+
+def _get_grid_shape(n_facets):
+    """
+    calculate the shape of the array of subplots based on the number of subplots
+    allows to set a fixed size for each subplot and set the figsize accordingly
+    """
+    root = math.sqrt(n_facets)
+    rows = math.ceil(root)
+    cols = math.floor(root)
+
+    if cols * rows < n_facets:
+        cols = math.ceil(root)
+
+    return rows, cols
+
+
+def _del_empty_facets(fig, axs, rows, cols, n_cols):
+    """
+    Delete redundant axes created in case that the number of subplots
+    in the grid does not fit to a rectangle
+    """
+    if (rows * cols) > n_cols:
+        emptys = (rows * cols) - n_cols
+
+        for j in range(1, emptys+1):
+            fig.delaxes(axs[rows-1, cols-j]);
+
+    return fig
+
+
+def z_score(series):
+    """Standardize a series to Z scores"""
+    if series.dtype in [float, np.float64, int, np.int64]:
+        return (series - series.mean()) / series.std()
+    else:
+        return series
+
+
+def obs_in_hist(
+    df, id_col, id_values, standardize=False, centrality=None, bins='auto',
+    facet_w=6, facet_h=4, plt_style='seaborn', colors=None,
+    obs_axvline_kwargs=None, center_axvline_kwargs=None, figlegend_kwargs=None
+):
+    """
+    Plot histograms for each numeric col in df with vertical lines
+    representing each selected observation in id_values
+    
+    Args:
+        df: pandas.DataFrame
+            the data to plot
+        id_col: str
+            name of column in df that identifies the observations
+        id_values: list (can be str if only one observation is selected)
+            values in id_col which represent the observations to plot
+        standardize: bool, optional
+            if True, transforms all columns to z-scores
+        centrality: str, optional
+            if set, plots a vertical line with a measure of central tendency.
+            must be one of: {'mean', 'median}
+        bins: int, optional
+            value to assign to the plt.hist bins argument
+        facet{h, w}: int
+            height and width of each facet. defaults to 4, 6 respectively
+        plt_style: str, optional
+            matplotlib style to use
+        colors: list, optional
+            matplotlib color strings to use for the vlines of the observations
+        {obs_axvline, center_axvline}_kwargs: dictionaries, optional
+            keyword arguments for plt.axvline functions for the observations and
+            centrality vertical lines respectively
+        figlegend_kwargs: dict, optional
+            keyword arguments for plt.figlegend function
+
+    Helper functions:
+        _get_grid_shape
+        _del_empty_facets
+    """
+    obs_line_kwargs = dict(alpha=0.8, lw=3, ls='--')
+    center_line_kwargs = dict(alpha=0.8, lw=2, ls=':', color='k')
+    legend_kwargs = dict(loc='upper right', prop={'size': 12})
+    kwargs_mapping = dict(
+        obs_line_kwargs=obs_axvline_kwargs,
+        center_line_kwargs=center_axvline_kwargs,
+        legend_kwargs=figlegend_kwargs
+    )
+
+    for preset_kwargs, user_kwargs in kwargs_mapping.items():
+        if user_kwargs:
+            preset_kwargs.update(user_kwargs)
+
+    if colors is None:
+        colors = [
+            'red', 'purple', 'green', 'yellow', 'sienna', 'orange', 'cyan'
+        ]
+
+    # checking that the inputs are correct, raising errors if ID isn't unique
+    # and warning if player has NaN's
+    df[id_col] = df[id_col].astype('object')
+    not_cols_in_df_error(df, cols=[id_col])
+    not_value_in_series(series=df[id_col], values=id_values)
+
+    if isinstance(id_values, str):
+        id_values = [id_values]
+    elif not isinstance(id_values, list):
+        raise ValueError(
+            'id_values must either be a string or a list of IDs'
+        )
+
+    if len(id_values) > 7:
+        raise ValueError(
+            'currently supports comparison of up to 7 players'
+        )
+
+    if standardize:
+        df = df.apply(z_score)
+
+    selected_players = df.loc[df[id_col].isin(id_values), :]
+    selected_players.set_index(id_col, inplace=True, drop=True)
+
+    if selected_players.shape[0] > len(id_values):
+        raise ValueError('A given IDs has multiple instances in the id_col ')
+
+    if selected_players.isnull().all().any():
+        logger.warning("""
+        all selected players have NaN in at least one variable.
+        Histograms for these variable/s are displayed with a gray background
+        """)
+
+    # create a dictionary with the player's values for drawing vertical lines
+    player_values = selected_players.to_dict(orient='index')
+
+    original_n = df.shape[0]
+    df = df.loc[~df[id_col].isin(id_values), :].dropna()
+    df.drop(id_col, axis=1, inplace=True)
+
+    if df.shape[0] == 0:
+        raise ValueError('at least one variable in df has only missing values')
+
+    if (df.shape[0] * 2) < original_n:
+        logger.warning('at least one variable has more than 50% missing values')
+
+    # create subplots
+    mpl.style.use(plt_style)
+    colnames = get_df_numeric_cols_list(df)
+    n_cols = len(colnames)
+    rows, cols = _get_grid_shape(n_facets=n_cols)
+    fig, axs = plt.subplots(rows, cols, figsize=(facet_w*cols, facet_h*rows));
+    lines = []
+    labels = []
+    # plotting histograms with vline for current player on subplots
+    for col_num in range(n_cols):
+
+        if n_cols == 1:
+            ax = axs
+        else:
+            ax = axs.ravel()[col_num]
+
+        colname = colnames[col_num]
+        ax.hist(df[colname], bins=bins);
+        ax.set_title(colname, fontsize=16);
+        player_num = 0
+
+        for id_, values_dict in player_values.items():
+            player_value = player_values[id_][colname]
+            curr_line = ax.axvline(
+                x=player_value, color=colors[player_num], **obs_line_kwargs
+            );
+            player_num += 1
+            id_ = str(id_)
+
+            if len(id_) < 12:
+                curr_label = id_
+            else:
+                curr_label = id_[:4] + '...' + id_[-4:]
+
+            if curr_label not in labels:
+                lines.append(curr_line)
+                labels.append(curr_label)
+
+        if centrality:
+            center_line = ax.axvline(
+                x=df[colname].agg(centrality), **center_line_kwargs
+            );
+            lines.append(center_line)
+            labels.append(centrality)
+
+        if selected_players[colname].isnull().all():
+            ax.set_facecolor('gray');
+
+    fig = _del_empty_facets(
+        fig=fig, axs=axs, rows=rows, cols=cols, n_cols=n_cols
+    );
+    fig.legend(lines, labels, **figlegend_kwargs);
+
+
+def _draw_figlegend_from_ax(
+    fig, ax, loc, title, fontsize, title_size,
+    bbox_loc='upper left'
+):
+    """
+    Draw a figure legend in matplotlib subplots, given an axis.
+    Assumes that the axis legend (particularly handles and labels) is the
+    same as all other axes in the subplots
+    
+    Args:
+        fig: matplotlib.figure
+            figure to draw the legend on
+        ax: matplotlib.axis
+            axis to take the legend information (handels, labels) from
+        loc: tuple of length 2, optional
+            legend location to be used in figlegend bbox_to_anchor
+        title: str
+            legend title
+        fontsize: int
+            legend text fontsize
+        title_size: int
+            legend title fontsize
+
+    Returns:
+        matplotlib.figure object
+    """
+    handles, labels = ax.get_legend_handles_labels();
+
+    if 'nan' in labels:
+        nan_loc = labels.index('nan')
+        del labels[nan_loc]
+        del handles[nan_loc]
+
+    fig.legend(
+        handles=handles, labels=labels, loc=bbox_loc, bbox_to_anchor=loc,
+        title=title, fontsize=fontsize, title_fontsize=title_size
+    );
+
+    return fig;
+
+
+def _set_grid_shape(shape, n_facets):
+    """
+    Input validation for manually setting matplolib.subplots grid shape.
+
+    Args:
+        shape: tuple of 2 ints
+            a tuple where the first element specifies the number of rows
+            and the second element specifies the number of columns
+        n_facets: int
+            the number of facets to be plotted
+
+    Returns:
+        A tuple specifying the number of rows and columns in the grid
+
+    Raises:
+        TypeError: if shape is not a tuple of two integers
+        ValueError: if the specified shape cannot contain all the facets
+    """
+    if not isinstance(shape, tuple):
+        raise TypeError('shape must be a tuple of 2 integers')
+    elif len(shape) != 2:
+        raise TypeError('shape must be a tuple of 2 integers')
+    elif (shape[0] * shape[1]) < n_facets:
+        txt = 'specified shape dimensions cannnot contain all plots'
+        raise ValueError(txt)
+
+    return shape
+
+
+# class AdjustGrid(object):
+
+
+#     def __init__(self):
+#         """"""
+#         pass
+
+
+#     def set_grid_shape(self, shape, n_facets):
+#         """
+#         Input validation for manually setting matplolib.subplots grid shape.
+
+#         Args:
+#             shape: tuple of 2 ints
+#                 a tuple where the first element specifies the number of rows
+#                 and the second element specifies the number of columns
+#             n_facets: int
+#                 the number of facets to be plotted
+
+#         Returns:
+#             A tuple specifying the number of rows and columns in the grid
+
+#         Raises:
+#             TypeError: if shape is not a tuple of two integers
+#             ValueError: if the specified shape cannot contain all the facets
+#         """
+#         if not isinstance(shape, tuple):
+#             raise TypeError('shape must be a tuple of 2 integers')
+#         elif len(shape) != 2:
+#             raise TypeError('shape must be a tuple of 2 integers')
+#         elif (shape[0] * shape[1]) < n_facets:
+#             txt = """The specified dimensions of shape are smaller than
+#             the number of numeric columns"""
+#             raise ValueError(txt)
+
+#         return shape
+
+
+#     def get_grid_shape(self, n_facets):
+#         """
+#         Calculate the shape of the array of subplots based on how many
+#         subplots there are. allows to set a fixed size for each subplot
+#         and change the figure size accordingly
+#         """
+#         root = math.sqrt(n_facets)
+#         rows = math.ceil(root)
+#         cols = math.floor(root)
+
+#         if cols * rows < n_facets:
+#             cols = math.ceil(root)
+
+#         return rows, cols
+
+
+#     def del_empty_facets(self, fig, axs, rows, cols, n_facets):
+#         """
+#         If the number of subplots in the grid does not fit to a rectangle,
+#         delete the extra axes that were created
+#         """
+#         if (rows * cols) > n_facets:
+#             emptys = (rows * cols) - n_facets
+
+#             for j in range(1, emptys + 1):
+#                 fig.delaxes(axs[rows - 1, cols - j]);
+
+#         return fig
+
+
+#     def _draw_figlegend_from_ax(fig, ax, loc, title, fontsize):
+#         """
+#         Draw a figure legend in matplotlib subplots, given an axis.
+#         Assumes that the axis legend (particularly handles and labels)
+#         is the same as all other axes in the subplots
+
+#         Args:
+#             fig: matplotlib.figure
+#                 figure to draw the legend on
+#             ax: matplotlib.axis
+#                 axis to take the legend information (handels, labels) from
+#             loc: tuple of length 2, optional
+#                 legend location to be used in figlegend bbox_to_anchor
+#             title: str
+#                 legend title
+#             fontsize: int
+#                 legend text fontsize
+
+#         Returns:
+#             matplotlib.figure object
+#         """
+#         handles, labels = ax.get_legend_handles_labels();
+
+#         if 'nan' in labels:
+#             nan_loc = labels.index('nan')
+#             del labels[nan_loc]
+#             del handles[nan_loc]
+
+#         fig.legend(handles=handles, labels=labels,
+#                    bbox_to_anchor=loc, title=title, fontsize=fontsize);
+
+#         return fig;
+
+
+def univariate(
+    df, cols=None, hue=None, layout=None, centrality=False,
+    figsize=None, facet_size=(4, 4), suptitle=None, legend_loc=(1, 1),
+    hue_colors=None, **kwargs
+):
+    """
+    Plot histograms for all numeric columns in a dataframe.
+    Optionally set the number of rows/columns in the plot matrix
+
+    Args:
+        df: pandas.DataFrame
+        cols: list or str, optional
+            column names in df to plot
+        hue: str, optional
+            column name to plot separate histograms in different colors by
+        layout: tuple of length 2, optional
+            number of facets rows (1st element) and columns (2nd element)
+            in the plot matrix. the multiplication of the two elements
+            must fit the number of numeric columns in the datframe
+        centrality: str, optional
+            if set, plots a vertical line with a measure of central tendency.
+            must be one of: {'mean', 'median}
+        figsize: 2 tuple, optional
+            size in inches figure height and width. overrides facet_size
+        facet_size: 2 tuple, optional
+            size in inches of the height and width of each facet.
+            only relevant if figsize is None
+        suptitle: str, optional
+            figure title
+        legend_loc: tuple of length 2, optional
+            legend location to be used in figlegend bbox_to_anchor
+        hue_colors: list, optional
+            list of color names to use for the different hues
+
+    Returns:
+        figure and axes from a matplotlib subplots grid
+
+    Helper functions:
+        not_cols_in_df_error
+        get_df_numeric_cols_list
+        _set_grid_shape
+        _get_grid_shape
+        _del_empty_facets
+        _draw_figlegend_from_ax
+
+    Raises:
+        Errors for input validation (coming from helper functions)
+    """
+    # setting default kws and updating them based on user input
+    settings = {
+        'distplot_kws': {
+            'hist': False if hue else True,
+            'kde': True,
+            'axlabel': False,
+            'kde_kws': {
+                'lw': 2,
+                'legend': True if centrality else False,
+            },
+            'hist_kws': {}
+        },
+        'axvline_kws': {'ls': '--', 'lw': 1},
+        'legend_kws': {'title_size': 14, 'fontsize': 12},
+        'ax_title_kws': {'fontsize': 14},
+        'tick_params_kws': {
+            'axis': 'both', 'which': 'major', 'labelsize': 8
+        },
+        'suptitle_kws': {'t': suptitle}
+    }
+    settings['distplot_kws']['hist_kws'].update(
+        {'alpha': 0.5 if settings['distplot_kws']['kde'] else 1}
+    )
+    one_level_kws = [
+        'legend_kws', 'ax_title_kws', 'tick_params_kws', 'suptitle_kws'
+    ]
+
+    if kwargs:
+
+        for kwargs_k, kwargs_v in kwargs.items():
+
+            if kwargs_k in one_level_kws:
+                settings[kwargs_k].update(kwargs_v)
+            elif kwargs_k == 'distplot_kws':
+
+                if isinstance(kwargs_v, dict):
+
+                    for level2_k, level2_v in kwargs_v.items():
+
+                        if isinstance(level2_v, dict):
+                            settings[kwargs_k][level2_k].update(level2_v)
+                        else:
+                            settings[kwargs_k][level2_k] = level2_v
+
+                else:
+                    settings[kwargs_k].update(kwargs[kwargs_k])
+            else:
+                logger.warning(kwargs_k + ' is unknown')
+
+    # input validation and adjustment
+    if cols:
+
+        if isinstance(cols, str):
+            cols = [cols]
+
+        not_cols_in_df_error(df=df, cols=cols)
+        original_columns = cols
+        numeric_cols = get_df_numeric_cols_list(df.loc[:, cols])
+    else:
+        original_columns = df.columns.tolist()
+        numeric_cols = get_df_numeric_cols_list(df)
+
+    cols_to_use = [col for col in numeric_cols if col != hue]
+
+    if hue:
+        not_cols_in_df_error(df=df, cols=hue)
+        cols_to_use = cols_to_use + [hue]
+
+        if hue_colors is None:
+            hue_colors = colormap
+
+    if len(cols_to_use) < len(original_columns):
+        non_numeric_cols = [
+            col for col in original_columns if col not in numeric_cols
+        ]
+        txt = 'the following columns are not numeric and cannot be plotted: '
+
+        if hue:
+            non_numeric_cols = [
+                col for col in non_numeric_cols if col != hue
+            ]
+
+        if len(non_numeric_cols) > 0:
+            logger.warning(txt + str(non_numeric_cols))
+
+    if layout:
+        rows, cols = _set_grid_shape(shape=layout, n_facets=len(numeric_cols))
+    else:
+
+        if len(numeric_cols) == 3:
+            rows, cols = (1, 3)
+        else:
+            rows, cols = _get_grid_shape(n_facets=len(numeric_cols))
+
+    if not figsize:
+        figsize = (facet_size[0] * cols, facet_size[1] * rows)
+
+    # plot data and adjust aesthetics
+    df = df.copy().loc[:, cols_to_use]
+    fig, axs = plt.subplots(nrows=rows, ncols=cols, figsize=figsize);
+
+    for col_num in range(len(numeric_cols)):
+
+        if len([col for col in cols_to_use if col != hue]) == 1:
+            ax = axs;
+        else:
+            ax = axs.ravel()[col_num];
+
+        colname = numeric_cols[col_num]
+
+        if hue:
+
+            for color_num, hue_value in enumerate(df[hue].unique()):
+                series = df.loc[df[hue] == hue_value, colname].dropna()
+                curr_color = hue_colors[color_num]
+
+                if centrality:
+                    center = series.agg(centrality)
+                    ax.axvline(
+                        x=center, color=curr_color,
+                        **settings['axvline_kws']
+                    );
+                    curr_label = 'm({}) = {:.2f}'.format(hue_value, center)
+                else:
+                    curr_label = str(hue_value)
+
+                sns.distplot(
+                    series, color=curr_color, label=curr_label,
+                    ax=ax, **settings['distplot_kws']
+                );
+        else:
+            series = df[colname].dropna()
+
+            if centrality:
+                center = series.agg(centrality)
+                ax.axvline(x=center, **settings['axvline_kws']);
+                curr_label = 'm = {:.2f}'.format(center)
+                settings['distplot_kws']['kde_kws']['label'] = curr_label
+
+            sns.distplot(series, ax=ax, **settings['distplot_kws'])
+
+        ax.set_title(colname, **settings['ax_title_kws']);
+        ax.tick_params(**settings['tick_params_kws'])
+
+    if bool(hue) & (not centrality):
+        _draw_figlegend_from_ax(
+            fig=fig, ax=ax, loc=legend_loc, title=hue,
+            **settings['legend_kws']
+        )
+
+    if suptitle:
+        fig.suptitle(**settings['suptitle_kws'])
+
+    fig.tight_layout();
+    fig = _del_empty_facets(
+        fig=fig, axs=axs, rows=rows, cols=cols, n_cols=len(numeric_cols)
+    )
+
+    return fig, axs;
+
+
+def compare_groups_same_scale(
+    df, dep_vars, hue, kind='boxplot', figsize=(8, 6), order=None, colors=None,
+    color_by=None, colors_lengths=None, vars_to_float=False, **kwargs
+):
+    """
+    Plot differences between groups on one axis with multiple plots.
+    Plot types can be one of: 'boxplot', 'violin', 'bar'.
+
+    Args:
+        df: pandas.DataFrame containing all data
+        dep_vars: list
+            dependent variables to plot on the y axis
+        hue: str
+            categorical variable to group by (used in the hue arg of the plot).
+            used for coloring the groups, if color_by is not set
+        kind: str, optional
+            seaborn plot to use. supports: 'boxplot', 'violinplot' 'barplot'
+        figsize: tuple of length 2, optional
+            height and width of the plot in inches
+        color_by: str, optional
+            categorical variable to color by in case color should be
+            set separately from the grouping variable.
+        colors_lengths: list (tuple also works), optional
+            the number of instances for each color group in color_by.
+            e.g to have 3 bars of one color and 4 bars of another color
+            set color_lengths to [3, 4]. the sum of colors_lengths must be
+            equal to the number of different categories in hue
+        order: list, optional
+            order to plot the categorical levels in
+        colors: list, optional
+            colors to use in case color_by is not None.
+            defaults to colormap
+        vars_to_float: bool, optional
+            if True, all dependent variables' dtype is changed to float
+
+    Returns:
+        Matplotlib axis
+    """
+    if colors is None:
+        colors = colormap
+
+    kws = {
+        'legend': {'loc': 'upper right', 'fontsize': 8},
+        'barplot': {'ci': 95},
+        'boxplot': {'showfliers': True},
+        'violinplot': {'split': True, 'inner': 'box', 'cut': 0},
+        'tick_params': {'axis': 'both', 'which': 'major', 'labelsize': 8}
+    }
+
+    if kwargs:
+
+        for kwargs_k, kwargs_v in kwargs.items():
+
+            if kwargs_k.split('_kws')[0] in kws.keys():
+                kws[kwargs_k.split('_kws')[0]].update(kwargs_v)
+            else:
+                raise KeyError(kwargs_k + ' is unknown')
+
+    if bool(color_by) != bool(colors_lengths):
+        raise ValueError(
+            'if color_by or colors_lengths is defined, the other must also be'
+        )
+
+    if color_by:
+        palette = []
+        df = df.sort_values(by=color_by)
+
+        if len(colors_lengths) > len(colors):
+            raise ValueError(
+                'currently supports up to {} different colors'.format(
+                    len(colors)
+                )
+            )
+
+        for i in range(len(colors_lengths)):
+            new_colors = [colors[i]] * colors_lengths[i]
+            palette = palette + new_colors
+
+        kws[kind]['palette'] = palette
+        id_vars = [color_by, hue]
+    else:
+        id_vars = [hue]
+
+    if vars_to_float:
+
+        for col in dep_vars:
+            df[col] = df[col].astype(float)
+
+    n_hues = len(df[hue].unique())
+
+    if kind == 'violinplot':
+
+        if (n_hues != 2) & kws[kind]['split']:
+            logger.warning(
+                """Seaborn.violinplot requires exactly 2 hue levels for split.
+                Resorting to split=False"""
+            )
+            kws[kind]['split'] = False
+
+    cols = dep_vars + id_vars
+    df = df.loc[:, cols].melt(id_vars=id_vars).dropna()
+    fig, ax = plt.subplots(figsize=figsize);
+    plot = getattr(sns, kind);
+    ax = plot(
+        x='variable', y='value', hue=hue, data=df,
+        order=order, **kws[kind]
+    );
+
+    ax.legend(**kws['legend']);
+    ax.tick_params(**kws['tick_params'])
+
+    return ax;
+
+
+def compare_groups_diff_scales(
+    df, indep_var, dep_vars, kind='boxplot', hue=None, order=None,
+    shape=None, figsize=None, facet_size=(4, 4), show_xlabel_title=False,
+):
+    # if one var is bool force for same_scale = False
+
+    """
+    Plot differences between groups on separate subplots.
+    Numeric dtypes will be presented on boxplots and booleans on barplots
+    (as proportion of True). all other dtypes will not be plotted
+
+    Args:
+        df: pandas.DataFrame containing all data
+        indep_var: str
+            df column name of independent variable to appear on the x axis.
+        dep_vars: list
+            df column names of dependent variables to plot on the y axis
+        hue: str, optional
+            use in case the hue colors should ve different than the indep_var.
+            must be a column name in df
+        kind: str, optional
+            seaborn plot to use. supports: 'boxplot', 'violinplot' 'barplot'
+        shape: tuple of length 2, optional
+            number of facets rows (1st element) and columns (2nd element)
+            in the plot matrix. the multiplication of the two elements
+            must fit the number of numeric columns in the datframe
+        figsize: tuple, optional
+            size in inches of the figure height and weight accordingly.
+            of set, overrides the facet_size argumen
+        order: list, optional
+            order to plot the categorical levels in
+        facet_size: 2-tuple
+            height and width of each subplot in inches
+        show_xlabel_title: bool, optional
+            if False, does not show the x axis label title
+
+    Returns:
+        Matplotlib figure and axes
+    """
+    n_cols = len(dep_vars)
+    kws = {
+        'barplot': {'ci': 95},
+        'boxplot': {'showfliers': True},
+        'violinplot': {'split': True, 'inner': 'box', 'cut': 0},
+        'figlegend': {'bbox_to_anchor': None, 'loc': None, 'fontsize': 10},
+        'tick_params': {'labelsize': 8, 'labelrotation': 90},
+        'set_title': {'fontsize': 13}
+    }
+
+    if kwargs:
+
+        for kwargs_k, kwargs_v in kwargs.items():
+
+            if kwargs_k.split('_kws')[0] in kws.keys():
+                kws[kwargs_k.split('_kws')[0]].update(kwargs_v)
+            else:
+                raise KeyError(kwargs_k + ' is unknown')
+
+    if shape:
+        rows, cols = _set_grid_shape(shape=shape, n_facets=n_cols)
+        figure_size = figsize
+    else:
+        rows, cols = _get_grid_shape(n_facets=n_cols)
+
+        if not figsize:
+            figure_size = (facet_size[0] * cols, facet_size[1] * rows)
+
+    fig, axs = plt.subplots(rows, cols, figsize=figure_size);
+
+    if not hue:
+        hue = indep_var
+
+    df = df.copy().sort_values(by=hue)
+    non_numeric_dvs = []
+
+    for col_num in range(n_cols):
+        colname = dep_vars[col_num]
+
+        if n_cols == 1:
+            ax = axs
+        else:
+            ax = axs.ravel()[col_num]
+
+        if df[colname].dtype == 'bool':
+            curr_kind = 'barplot'
+        elif pd.api.types.is_numeric_dtype(df[colname].dtype):
+            curr_kind = kind
+        else:
+            non_numeric_dvs.append(colname)
+
+        plot = getattr(sns, curr_kind);
+        curr_plot = plot(y=colname, x=indep_var, hue=hue, data=df,
+                         order=order, ax=ax, **kws[curr_kind]);
+        ax.set_title(colname, **kws['set_title'])
+        ax.set_ylabel('')
+        ax.legend_.remove()
+        ax.tick_params(**kws['tick_params'])
+
+        if not show_xlabel_title:
+            ax.set_xlabel('')
+
+    fig = _del_empty_facets(
+        fig=fig, axs=axs, rows=rows, cols=cols, n_cols=n_cols
+    );
+    handles, labels = curr_plot.get_legend_handles_labels();
+    fig.legend(handles=handles, labels=labels, title=hue, **kws['figlegend']);
+    fig.tight_layout();
+
+    if non_numeric_dvs:
+        warn = ' columns are not numeric or bool and cannot be plotted'
+        logger.warning(str(non_numeric_dvs) + warn)
+
+    return fig, axs;
+
+
+def not_cols_in_df_error(df, cols):
+    """
+    Raises error if df is not a pandas.DataFrame
+    or if one of cols is not a column in df
+
+    Args:
+        df: pandas.DataFrame
+        cols: str or list of strings
+            name of the column/s to inspect
+
+    Raises:
+        TypeError: if one of the inputs is not in the expected type
+        KeyError: if any of cols is not the name of a column in df
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError('input must be a pandas.DataFrame')
+
+    if isinstance(cols, str):
+        cols = [cols]
+
+    if not isinstance(cols, list):
+        raise TypeError('cols must be either a string or a list of strings')
+
+    for col in cols:
+
+        if not isinstance(col, str):
+            raise TypeError('cols must be either a string or a list of strings')
+
+        if col not in df.columns:
+            raise KeyError(col + ' is not a column in the dataframe')
+
+
+def not_value_in_series(series, values):
+    """
+    Raises ValueError if given values are not in a pandas.Series
+
+    Args:
+        series: pandas.Series
+        values: list of values of the same data type as the series
+    """
+    if not isinstance(values, list):
+        values = [values]
+
+    for v in values:
+
+        if v not in series.tolist():
+            raise ValueError(
+                'the value {} is not in the series {}. '.format(v, series.name)
+            )
+
+
+def get_df_numeric_cols_list(df):
+    """Return a list of the names of all numeric columns in the dataframe"""
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError('input df must be a pandas.DataFrame')
+
+    allowed_types = [float, np.float64, int, np.int64]
+    cols_list = []
+
+    for col in df.columns:
+
+        if df[col].dtype in allowed_types:
+            cols_list = cols_list + [col]
+
+    return cols_list
+
+
+def forest_plot(
+    df, dv=None, sort_values=True, standardize=False, figsize=(12, 9),
+    ylabel_size=12, xlabel_size=14, xaxis_title=''
+):
+    """"""
+    df = df.copy()
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.set_yticks(range(df.shape[0]));
+#     ax.set_yticklabels(df[dv], fontsize=ylabel_size);
+    ax.set_xlabel(xaxis_title, fontsize=xlabel_size)
+    ax.axvline(x=df.mean().mean(), color='k', linestyle='--');
+
+    df['row_mean'] = df.mean(axis=1)
+    df['row_std'] = df.std(axis=1)
+    df['row_sem'] = df['row_std'] / np.sqrt(df.shape[0])
+    df['ci_upper'] = df['row_mean'] + (1.96 * df['row_sem'])
+    df['ci_lower'] = df['row_mean'] - (1.96 * df['row_sem'])
+
+    if sort_values:
+        df.sort_values(by='row_mean', inplace=True)
+
+    df.reset_index(inplace=True, drop=True)
+
+    for row in range(df.shape[0]):
+        lower = df.loc[row, 'ci_lower']
+        upper = df.loc[row, 'ci_upper']
+        mean = df.loc[row, 'row_mean']
+        ax.plot([lower, upper], [row, row], color='k')
+        ax.plot([mean, mean], [row, row], marker='s', linestyle='', color='red')
+
+    ax.set_ylabel = df.index
+    ax.invert_yaxis()
+
+    return ax
 
