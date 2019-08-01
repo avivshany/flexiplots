@@ -1,6 +1,3 @@
-
-# coding: utf-8
-
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -955,111 +952,9 @@ def _set_layout(layout, n_facets):
     return layout
 
 
-# class AdjustGrid(object):
-
-
-#     def __init__(self):
-#         """"""
-#         pass
-
-
-#     def set_layout(self, shape, n_facets):
-#         """
-#         Input validation for manually setting matplotlib.subplots grid shape.
-
-#         Args:
-#             shape: tuple of 2 ints
-#                 a tuple where the first element specifies the number of rows
-#                 and the second element specifies the number of columns
-#             n_facets: int
-#                 the number of facets to be plotted
-
-#         Returns:
-#             A tuple specifying the number of rows and columns in the grid
-
-#         Raises:
-#             TypeError: if shape is not a tuple of two integers
-#             ValueError: if the specified shape cannot contain all the facets
-#         """
-#         if not isinstance(shape, tuple):
-#             raise TypeError('shape must be a tuple of 2 integers')
-#         elif len(shape) != 2:
-#             raise TypeError('shape must be a tuple of 2 integers')
-#         elif (shape[0] * shape[1]) < n_facets:
-#             txt = """The specified dimensions of shape are smaller than
-#             the number of numeric columns"""
-#             raise ValueError(txt)
-
-#         return shape
-
-
-#     def get_layout(self, n_facets):
-#         """
-#         Calculate the shape of the array of subplots based on how many
-#         subplots there are. allows to set a fixed size for each subplot
-#         and change the figure size accordingly
-#         """
-#         root = math.sqrt(n_facets)
-#         rows = math.ceil(root)
-#         cols = math.floor(root)
-
-#         if cols * rows < n_facets:
-#             cols = math.ceil(root)
-
-#         return rows, cols
-
-
-#     def del_empty_facets(self, fig, axs, rows, cols, n_facets):
-#         """
-#         If the number of subplots in the grid does not fit to a rectangle,
-#         delete the extra axes that were created
-#         """
-#         if (rows * cols) > n_facets:
-#             emptys = (rows * cols) - n_facets
-
-#             for j in range(1, emptys + 1):
-#                 fig.delaxes(axs[rows - 1, cols - j]);
-
-#         return fig
-
-
-#     def _draw_figlegend_from_ax(fig, ax, loc, title, fontsize):
-#         """
-#         Draw a figure legend in matplotlib subplots, given an axis.
-#         Assumes that the axis legend (particularly handles and labels)
-#         is the same as all other axes in the subplots
-
-#         Args:
-#             fig: matplotlib.figure
-#                 figure to draw the legend on
-#             ax: matplotlib.axis
-#                 axis to take the legend information (handles, labels) from
-#             loc: tuple of length 2, optional
-#                 legend location to be used in figlegend bbox_to_anchor
-#             title: str
-#                 legend title
-#             fontsize: int
-#                 legend text fontsize
-
-#         Returns:
-#             matplotlib.figure object
-#         """
-#         handles, labels = ax.get_legend_handles_labels();
-
-#         if 'nan' in labels:
-#             nan_loc = labels.index('nan')
-#             del labels[nan_loc]
-#             del handles[nan_loc]
-
-#         fig.legend(handles=handles, labels=labels,
-#                    bbox_to_anchor=loc, title=title, fontsize=fontsize);
-
-#         return fig;
-
-
 def univariate(
     df, cols=None, hue=None, layout=None, centrality=False,
-    figsize=None, facet_size=(4.2S, 4), suptitle=None, legend_loc=(1, 1),
+    figsize=None, facet_size=(4.2, 4), suptitle=None, legend_loc=(1, 1),
     hue_colors=None, **kwargs
 ):
     """
@@ -1257,9 +1152,10 @@ def univariate(
 
 
 def compare_groups_same_scale(
-    df, dvs, hue, kind='boxplot', figsize=(8, 6), order=None, colors=None,
+    df, dvs, hue, kind='boxplot', order=None, colors=None,
     color_by=None, colors_lengths=None, vars_to_float=False, **kwargs
 ):
+    # set default size using seaborn width and aspect
     """
     Plot differences between groups on one axis with multiple plots.
     Plot types can be one of: 'boxplot', 'violin', 'bar'.
@@ -1273,8 +1169,6 @@ def compare_groups_same_scale(
             used for coloring the groups, if color_by is not set
         kind: str, optional
             seaborn plot to use. supports: 'boxplot', 'violinplot' 'barplot'
-        figsize: tuple of length 2, optional
-            height and width of the plot in inches
         color_by: str, optional
             categorical variable to color by in case color should be
             set separately from the grouping variable.
