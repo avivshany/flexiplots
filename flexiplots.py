@@ -1059,7 +1059,7 @@ def _set_layout(layout, n_facets):
 
 def univariate(
     df, cols=None, hue=None, layout=None, centrality=False,
-    figsize=None, facet_size=(4, 4), suptitle=None, legend_loc=(1, 1),
+    figsize=None, facet_size=(4.2S, 4), suptitle=None, legend_loc=(1, 1),
     hue_colors=None, **kwargs
 ):
     """
