@@ -4,7 +4,6 @@
 import pandas as pd
 import numpy as np
 from scipy import stats
-import math
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
@@ -178,17 +177,13 @@ class FlexiGrid(object):
                         if name in setting_obj.keys():
                             setting_obj[name] = value
                         else:
-                            logger.warning(
-                                '{} is not a key in {}'.format(name, handle)
-                            )
+                            logger.warning(f'{name} is not a key in {handle}')
 
                 else:
-                    logger.warning('{} must be a dictionary'.format(handle))
+                    logger.warning(f'{handle} must be a dictionary')
 
             else:
-                logger.warning(
-                    '{} is not a pre-defined settings argument'.format(handle)
-                )
+                logger.warning(f'{handle} is not a pre-defined settings argument')
 
     def create_grid(self):
         """
@@ -263,7 +258,7 @@ class FlexiGrid(object):
                 sns.kdeplot(
                     data=srs, color=self.hue_kws['colors'][color_num],
                     shade=True, legend=False, ax=ax,
-                    label='{} (n={})'.format(hue_value, self.hues_n[hue_value])
+                    label=f'{hue_value} (n={self.hues_n[hue_value]})'
                 )
                 color_num += 1
         else:
@@ -471,7 +466,7 @@ class FlexiGrid(object):
                     facecolors=sctr_df['NaN'].apply(lambda x: map_colors[x]),
                     edgecolors=self.hue_kws['colors'][color_num],
                     s=self.scatter_kws['size'],
-                    label='{} (n={})'.format(hue_value, self.hues_n[hue_value])
+                    label=f'{hue_value} (n={self.hues_n[hue_value]})'
                 )
 
                 if self.fit_reg:
@@ -525,7 +520,7 @@ class FlexiGrid(object):
 
 def flexipairs(
     df, cols=None, x_vars=None, y_vars=None, show_nans=True, fit_reg=True,
-    show_corr=True, standardize=False, plt_style='seaborn', hue=None,
+    show_corr=True, standardize=False, hue=None,
     legend_loc=(1, 0.9), legend_fontsize=14, legend_title_fontsize=16, **kwargs
 ):
     """
@@ -544,11 +539,11 @@ def flexipairs(
     to adjust these settings enter the name of the *_kws object as an
     argument and assign to it a dictionary with the settings names to change
     as their new values. for example to show the regression lines in black
-    instead of red add the folllowing argument when calling the function:
+    instead of red add the following argument when calling the function:
     flexipairs(df, line_kws={'color': 'black'})
 
     Args:
-        df pandas.DataFrame
+        df: pandas.DataFrame
             the data to plot
         cols: list, optional
             list of column names from df to use in the plot
@@ -558,14 +553,16 @@ def flexipairs(
             grid doesn't have to be a square and no histograms will be shown
         show_nans: bool, optional
             if True, plot missing values in gray on the scatterplots
-            and prints the percentege of missing value for each variable
+            and prints the percentage of missing value for each variable
             on its histogram
         fit_reg: bool, optional
             if True, draws regression lines on the scatterplots
         show_corr: bool, optional
-            if True, prints pearson correlation coeffs on the scatterplots
+            if True, prints pearson correlation coefficients on the scatterplots
         hue: str, optional
             a column name in df to group by to different colors
+        standardize: bool, optional
+            if True, transform all columns to z-scores
         plt_style:
             matplotlib style to use
         legend_fontsize: int, optional
@@ -618,7 +615,7 @@ def flexipairs(
             else:
 
                 if not isinstance(axs, np.ndarray):
-                    # applys when both of x_vars, y_vars are of length 1
+                    # applies when both of x_vars, y_vars are of length 1
                     curr_ax = axs
                 elif len(axs.shape) == 1:
                     # applies when only one of x_vars, y_vars is of length 1
@@ -644,19 +641,68 @@ def flexipairs(
     return fig, axs
 
 
-def _get_grid_shape(n_facets):
+def _get_layout(n_facets, facet_size, layout, figsize):
     """
-    calculate the shape of the array of subplots based on the number of subplots
-    allows to set a fixed size for each subplot and set the figsize accordingly
+    calculate the layout of the array of subplots based on the number of facets.
+    allows to set a fixed size for each facet and set the figsize accordingly.
+    if layout is predefined, run input validation on the user inputted layout.
+    if figsize is predefined, override facet_size dimensions
+
+    Args:
+        n_facets: int
+            the number of facets to be plotted
+        facet_size: 2-tuple
+            size in inches of the height and width of each facet
+        layout: 2-tuple of ints
+            a tuple where the first element specifies the number of rows
+            and the second element specifies the number of columns
+        figsize: 2-tuple, optional
+            size in inches of figure height and width. overrides facet_size
+
+    Returns:
+        layout: 2-tuple
+            the number of rows and columns in the subplots grid
+        figsize: 2-tuple
+            the size in inches of figure width and height
+
+    Raises:
+        TypeError: if layout is not a 2-tuple of integers
+        ValueError: if the specified layout cannot contain all the facets
     """
-    root = math.sqrt(n_facets)
-    rows = math.ceil(root)
-    cols = math.floor(root)
+    if layout:
 
-    if cols * rows < n_facets:
-        cols = math.ceil(root)
+        if not isinstance(layout, tuple):
+            raise TypeError('layout must be a tuple of 2 integers')
+        elif len(layout) != 2:
+            raise TypeError('layout must be a tuple of 2 integers')
+        elif (layout[0] * layout[1]) < n_facets:
+            raise ValueError(
+                'specified layout dimensions cannot contain all plots')
+        elif (layout[0] > n_facets) | (layout[1] > n_facets):
+            raise ValueError('specified layout dimensions are too large')
 
-    return rows, cols
+    else:
+
+        root = np.sqrt(n_facets)
+        ceil = np.ceil(root)
+        floor = np.floor(root)
+
+        if ceil * floor < n_facets:
+            floor += 1
+
+        if n_facets == 3:
+            rows, cols = (1, 3)
+        elif n_facets < 9:
+            rows, cols = (floor, ceil)
+        else:
+            rows, cols = (ceil, floor)
+
+        layout = (int(rows), int(cols))
+
+    if figsize is None:
+        figsize = (facet_size[0] * layout[1], facet_size[1] * layout[0])
+
+    return layout, figsize
 
 
 def _del_empty_facets(fig, axs, rows, cols, n_cols):
@@ -683,7 +729,7 @@ def z_score(series):
 
 def obs_in_hist(
     df, id_col, id_values, standardize=False, centrality=None, bins='auto',
-    facet_w=6, facet_h=4, plt_style='seaborn', colors=None,
+    facet_size=(6, 4), plt_style='seaborn', colors=None,
     obs_axvline_kwargs=None, center_axvline_kwargs=None, figlegend_kwargs=None
 ):
     """
@@ -704,8 +750,8 @@ def obs_in_hist(
             must be one of: {'mean', 'median}
         bins: int, optional
             value to assign to the plt.hist bins argument
-        facet{h, w}: int
-            height and width of each facet. defaults to 4, 6 respectively
+        facet_size: 2-tuple, optional
+             width and height of each facet
         plt_style: str, optional
             matplotlib style to use
         colors: list, optional
@@ -717,7 +763,7 @@ def obs_in_hist(
             keyword arguments for plt.figlegend function
 
     Helper functions:
-        _get_grid_shape
+        _get_layout
         _del_empty_facets
     """
     obs_line_kwargs = dict(alpha=0.8, lw=3, ls='--')
@@ -734,9 +780,7 @@ def obs_in_hist(
             preset_kwargs.update(user_kwargs)
 
     if colors is None:
-        colors = [
-            'red', 'purple', 'green', 'yellow', 'sienna', 'orange', 'cyan'
-        ]
+        colors = ['r', 'purple', 'g', 'y', 'sienna', 'orange', 'c']
 
     # checking that the inputs are correct, raising errors if ID isn't unique
     # and warning if player has NaN's
@@ -788,8 +832,10 @@ def obs_in_hist(
     mpl.style.use(plt_style)
     colnames = get_df_numeric_cols_list(df)
     n_cols = len(colnames)
-    rows, cols = _get_grid_shape(n_facets=n_cols)
-    fig, axs = plt.subplots(rows, cols, figsize=(facet_w*cols, facet_h*rows));
+    layout, figure_size = _get_layout(
+        n_facets=n_cols, facet_size=facet_size, layout=None, figsize=None
+    )
+    fig, axs = plt.subplots(layout[0], layout[1], figsize=figure_size);
     lines = []
     labels = []
     # plotting histograms with vline for current player on subplots
@@ -833,9 +879,9 @@ def obs_in_hist(
             ax.set_facecolor('gray');
 
     fig = _del_empty_facets(
-        fig=fig, axs=axs, rows=rows, cols=cols, n_cols=n_cols
+        fig=fig, axs=axs, rows=layout[0], cols=layout[1], n_cols=n_cols
     );
-    fig.legend(lines, labels, **figlegend_kwargs);
+    fig.legend(lines, labels, **legend_kwargs);
 
 
 def _draw_figlegend_from_ax(
@@ -851,7 +897,7 @@ def _draw_figlegend_from_ax(
         fig: matplotlib.figure
             figure to draw the legend on
         ax: matplotlib.axis
-            axis to take the legend information (handels, labels) from
+            axis to take the legend information (handles, labels) from
         loc: tuple of length 2, optional
             legend location to be used in figlegend bbox_to_anchor
         title: str
@@ -879,12 +925,12 @@ def _draw_figlegend_from_ax(
     return fig;
 
 
-def _set_grid_shape(shape, n_facets):
+def _set_layout(layout, n_facets):
     """
-    Input validation for manually setting matplolib.subplots grid shape.
+    Input validation for manually setting matplotlib.subplots grid shape.
 
     Args:
-        shape: tuple of 2 ints
+        layout: tuple of 2 ints
             a tuple where the first element specifies the number of rows
             and the second element specifies the number of columns
         n_facets: int
@@ -897,15 +943,16 @@ def _set_grid_shape(shape, n_facets):
         TypeError: if shape is not a tuple of two integers
         ValueError: if the specified shape cannot contain all the facets
     """
-    if not isinstance(shape, tuple):
-        raise TypeError('shape must be a tuple of 2 integers')
-    elif len(shape) != 2:
-        raise TypeError('shape must be a tuple of 2 integers')
-    elif (shape[0] * shape[1]) < n_facets:
-        txt = 'specified shape dimensions cannnot contain all plots'
-        raise ValueError(txt)
+    if not isinstance(layout, tuple):
+        raise TypeError('layout must be a tuple of 2 integers')
+    elif len(layout) != 2:
+        raise TypeError('layout must be a tuple of 2 integers')
+    elif (layout[0] * layout[1]) < n_facets:
+        raise ValueError('specified layout dimensions cannot contain all plots')
+    elif (layout[0] > n_facets) | (layout[1] > n_facets):
+        raise ValueError('specified layout dimensions are too large')
 
-    return shape
+    return layout
 
 
 # class AdjustGrid(object):
@@ -916,9 +963,9 @@ def _set_grid_shape(shape, n_facets):
 #         pass
 
 
-#     def set_grid_shape(self, shape, n_facets):
+#     def set_layout(self, shape, n_facets):
 #         """
-#         Input validation for manually setting matplolib.subplots grid shape.
+#         Input validation for manually setting matplotlib.subplots grid shape.
 
 #         Args:
 #             shape: tuple of 2 ints
@@ -946,7 +993,7 @@ def _set_grid_shape(shape, n_facets):
 #         return shape
 
 
-#     def get_grid_shape(self, n_facets):
+#     def get_layout(self, n_facets):
 #         """
 #         Calculate the shape of the array of subplots based on how many
 #         subplots there are. allows to set a fixed size for each subplot
@@ -986,7 +1033,7 @@ def _set_grid_shape(shape, n_facets):
 #             fig: matplotlib.figure
 #                 figure to draw the legend on
 #             ax: matplotlib.axis
-#                 axis to take the legend information (handels, labels) from
+#                 axis to take the legend information (handles, labels) from
 #             loc: tuple of length 2, optional
 #                 legend location to be used in figlegend bbox_to_anchor
 #             title: str
@@ -1028,15 +1075,14 @@ def univariate(
         layout: tuple of length 2, optional
             number of facets rows (1st element) and columns (2nd element)
             in the plot matrix. the multiplication of the two elements
-            must fit the number of numeric columns in the datframe
+            must fit the number of numeric columns in the dataframe
         centrality: str, optional
             if set, plots a vertical line with a measure of central tendency.
             must be one of: {'mean', 'median}
         figsize: 2 tuple, optional
-            size in inches figure height and width. overrides facet_size
+            size in inches of figure width and height. overrides facet_size
         facet_size: 2 tuple, optional
-            size in inches of the height and width of each facet.
-            only relevant if figsize is None
+            size in inches of the width and height of each facet respectively
         suptitle: str, optional
             figure title
         legend_loc: tuple of length 2, optional
@@ -1050,8 +1096,7 @@ def univariate(
     Helper functions:
         not_cols_in_df_error
         get_df_numeric_cols_list
-        _set_grid_shape
-        _get_grid_shape
+        _get_layout
         _del_empty_facets
         _draw_figlegend_from_ax
 
@@ -1133,7 +1178,6 @@ def univariate(
         non_numeric_cols = [
             col for col in original_columns if col not in numeric_cols
         ]
-        txt = 'the following columns are not numeric and cannot be plotted: '
 
         if hue:
             non_numeric_cols = [
@@ -1141,23 +1185,16 @@ def univariate(
             ]
 
         if len(non_numeric_cols) > 0:
+            txt = 'the following columns are not numeric and cannot be plotted '
             logger.warning(txt + str(non_numeric_cols))
-
-    if layout:
-        rows, cols = _set_grid_shape(shape=layout, n_facets=len(numeric_cols))
-    else:
-
-        if len(numeric_cols) == 3:
-            rows, cols = (1, 3)
-        else:
-            rows, cols = _get_grid_shape(n_facets=len(numeric_cols))
-
-    if not figsize:
-        figsize = (facet_size[0] * cols, facet_size[1] * rows)
 
     # plot data and adjust aesthetics
     df = df.copy().loc[:, cols_to_use]
-    fig, axs = plt.subplots(nrows=rows, ncols=cols, figsize=figsize);
+    layout, figure_size = _get_layout(
+        n_facets=len(numeric_cols), facet_size=facet_size,
+        layout=layout, figsize=figsize
+    )
+    fig, axs = plt.subplots(layout[0], layout[1], figsize=figure_size);
 
     for col_num in range(len(numeric_cols)):
 
@@ -1180,7 +1217,7 @@ def univariate(
                         x=center, color=curr_color,
                         **settings['axvline_kws']
                     );
-                    curr_label = 'm({}) = {:.2f}'.format(hue_value, center)
+                    curr_label = f'm({hue_value}) = {center:.2f}'
                 else:
                     curr_label = str(hue_value)
 
@@ -1194,7 +1231,7 @@ def univariate(
             if centrality:
                 center = series.agg(centrality)
                 ax.axvline(x=center, **settings['axvline_kws']);
-                curr_label = 'm = {:.2f}'.format(center)
+                curr_label = f'm = {center:.2f}'
                 settings['distplot_kws']['kde_kws']['label'] = curr_label
 
             sns.distplot(series, ax=ax, **settings['distplot_kws'])
@@ -1213,14 +1250,14 @@ def univariate(
 
     fig.tight_layout();
     fig = _del_empty_facets(
-        fig=fig, axs=axs, rows=rows, cols=cols, n_cols=len(numeric_cols)
+        fig=fig, axs=axs, rows=layout[0], cols=layout[1], n_cols=len(numeric_cols)
     )
 
     return fig, axs;
 
 
 def compare_groups_same_scale(
-    df, dep_vars, hue, kind='boxplot', figsize=(8, 6), order=None, colors=None,
+    df, dvs, hue, kind='boxplot', figsize=(8, 6), order=None, colors=None,
     color_by=None, colors_lengths=None, vars_to_float=False, **kwargs
 ):
     """
@@ -1229,7 +1266,7 @@ def compare_groups_same_scale(
 
     Args:
         df: pandas.DataFrame containing all data
-        dep_vars: list
+        dvs: list
             dependent variables to plot on the y axis
         hue: str
             categorical variable to group by (used in the hue arg of the plot).
@@ -1287,11 +1324,7 @@ def compare_groups_same_scale(
         df = df.sort_values(by=color_by)
 
         if len(colors_lengths) > len(colors):
-            raise ValueError(
-                'currently supports up to {} different colors'.format(
-                    len(colors)
-                )
-            )
+            raise ValueError(f'currently supports up to {len(colors)} different colors')
 
         for i in range(len(colors_lengths)):
             new_colors = [colors[i]] * colors_lengths[i]
@@ -1304,7 +1337,7 @@ def compare_groups_same_scale(
 
     if vars_to_float:
 
-        for col in dep_vars:
+        for col in dvs:
             df[col] = df[col].astype(float)
 
     n_hues = len(df[hue].unique())
@@ -1318,9 +1351,8 @@ def compare_groups_same_scale(
             )
             kws[kind]['split'] = False
 
-    cols = dep_vars + id_vars
+    cols = dvs + id_vars
     df = df.loc[:, cols].melt(id_vars=id_vars).dropna()
-    fig, ax = plt.subplots(figsize=figsize);
     plot = getattr(sns, kind);
     ax = plot(
         x='variable', y='value', hue=hue, data=df,
@@ -1334,11 +1366,11 @@ def compare_groups_same_scale(
 
 
 def compare_groups_diff_scales(
-    df, indep_var, dep_vars, kind='boxplot', hue=None, order=None,
-    shape=None, figsize=None, facet_size=(4, 4), show_xlabel_title=False,
+    df, x, y_cols=None, hue=None, kind='boxplot', layout=None, facet_size=(4, 4),
+    figsize=None, barplot_kws=None, boxplot_kws=None, violinplot_kws=None,
+    figlegend_kws=None, tick_params_kws=None, set_title_kws=None
 ):
     # if one var is bool force for same_scale = False
-
     """
     Plot differences between groups on separate subplots.
     Numeric dtypes will be presented on boxplots and booleans on barplots
@@ -1346,70 +1378,98 @@ def compare_groups_diff_scales(
 
     Args:
         df: pandas.DataFrame containing all data
-        indep_var: str
+        x: str
             df column name of independent variable to appear on the x axis.
-        dep_vars: list
-            df column names of dependent variables to plot on the y axis
+            by default uses this column in the hue argument  of the seaborn
+            plotting function to color by its levels, unless hue is set
+        y_cols: list, optional
+            df column names of dependent variables to plot on different facets
+            if not set, uses all columns in df except for the columns set to x
         hue: str, optional
-            use in case the hue colors should ve different than the indep_var.
-            must be a column name in df
+            df column name to color by its levels. use in case the hue to color
+            by should be different than the column defined for the x argument
         kind: str, optional
             seaborn plot to use. supports: 'boxplot', 'violinplot' 'barplot'
-        shape: tuple of length 2, optional
+        layout: tuple of length 2, optional
             number of facets rows (1st element) and columns (2nd element)
             in the plot matrix. the multiplication of the two elements
-            must fit the number of numeric columns in the datframe
-        figsize: tuple, optional
-            size in inches of the figure height and weight accordingly.
-            of set, overrides the facet_size argumen
-        order: list, optional
-            order to plot the categorical levels in
+            must fit the number of numeric columns in the dataframe
         facet_size: 2-tuple
-            height and width of each subplot in inches
-        show_xlabel_title: bool, optional
-            if False, does not show the x axis label title
+            width and height of each subplot in inches
+        figsize: tuple, optional
+            size in inches of the figure height and weight respectively.
+            if set, overrides the facet_size argument
+        {boxplot, violinplot, barplot}_kws: dictionaries, optional
+            Keyword arguments for underlying seaborn plotting functions
+        {figlegend, tick_params, set_title}_kws: dictionaries, optional
+            Keyword arguments for underlying matplotlib axis methods
 
     Returns:
         Matplotlib figure and axes
+
+    Raises:
+
     """
-    n_cols = len(dep_vars)
-    kws = {
-        'barplot': {'ci': 95},
-        'boxplot': {'showfliers': True},
-        'violinplot': {'split': True, 'inner': 'box', 'cut': 0},
-        'figlegend': {'bbox_to_anchor': None, 'loc': None, 'fontsize': 10},
-        'tick_params': {'labelsize': 8, 'labelrotation': 90},
-        'set_title': {'fontsize': 13}
-    }
-
-    if kwargs:
-
-        for kwargs_k, kwargs_v in kwargs.items():
-
-            if kwargs_k.split('_kws')[0] in kws.keys():
-                kws[kwargs_k.split('_kws')[0]].update(kwargs_v)
-            else:
-                raise KeyError(kwargs_k + ' is unknown')
-
-    if shape:
-        rows, cols = _set_grid_shape(shape=shape, n_facets=n_cols)
-        figure_size = figsize
-    else:
-        rows, cols = _get_grid_shape(n_facets=n_cols)
-
-        if not figsize:
-            figure_size = (facet_size[0] * cols, facet_size[1] * rows)
-
-    fig, axs = plt.subplots(rows, cols, figsize=figure_size);
+    if y_cols is None:
+        y_cols = df.columns.tolist()
 
     if not hue:
-        hue = indep_var
+        hue = x
 
+    # input validation
+    for str_input in [x, hue]:
+
+        if not isinstance(str_input, str):
+            raise TypeError('the {str_input} argument requires a string input')
+
+    if not isinstance(y_cols, list):
+        raise TypeError('the y_cols argument requires a list input')
+
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError('the df argument requires a pandas.DataFrame input')
+
+    for col in y_cols + [x, hue]:
+
+        if col not in df.columns:
+            raise KeyError(col + ' is not a column in the dataframe')
+
+    # set plot aesthetics
+    y_cols = [col for col in y_cols if col not in [x, hue]]
+    n_cols = len(y_cols)
+    barplot_kwargs = dict(ci=95, dodge=False)
+    boxplot_kwargs = dict(showfliers=True, dodge=False)
+    violinplot_kwargs = dict(split=True, inner='stick', cut=0, dodge=False)
+    figlegend_kwargs = dict(bbox_to_anchor=[1, 1], loc='upper left', fontsize=10)
+    tick_params_kwargs = dict(labelsize=10, labelrotation=0)
+    set_title_kwargs = dict(fontsize=13)
+
+    if (len(df[x].unique()) != 2) & (kind == 'violinplot'):
+        violinplot_kwargs.update(dict(split=False, inner='box'))
+
+    default_kws = [
+        barplot_kwargs, boxplot_kwargs, violinplot_kwargs,
+        figlegend_kwargs, tick_params_kwargs, set_title_kwargs
+    ]
+    user_kws = [
+        barplot_kws, boxplot_kws, violinplot_kws,
+        figlegend_kws, tick_params_kws, set_title_kws
+    ]
+
+    for i, kwargs_dict in enumerate(default_kws):
+
+        if user_kws[i]:
+            kwargs_dict.update(user_kws[i])
+
+    layout, figure_size = _get_layout(
+        n_facets=n_cols, facet_size=facet_size,
+        layout=layout, figsize=figsize
+    )
+    fig, axs = plt.subplots(layout[0], layout[1], figsize=figure_size);
     df = df.copy().sort_values(by=hue)
-    non_numeric_dvs = []
+    non_numeric_cols = []
 
     for col_num in range(n_cols):
-        colname = dep_vars[col_num]
+        colname = y_cols[col_num]
 
         if n_cols == 1:
             ax = axs
@@ -1421,29 +1481,31 @@ def compare_groups_diff_scales(
         elif pd.api.types.is_numeric_dtype(df[colname].dtype):
             curr_kind = kind
         else:
-            non_numeric_dvs.append(colname)
+            non_numeric_cols.append(colname)
 
         plot = getattr(sns, curr_kind);
-        curr_plot = plot(y=colname, x=indep_var, hue=hue, data=df,
-                         order=order, ax=ax, **kws[curr_kind]);
-        ax.set_title(colname, **kws['set_title'])
+        kinds_kwargs = {
+            'barplot': barplot_kwargs, 'boxplot': boxplot_kwargs,
+            'violinplot': violinplot_kwargs
+        }
+        plot_kws = kinds_kwargs[curr_kind]
+        curr_plot = plot(y=colname, x=x, hue=hue, data=df, ax=ax, **plot_kws);
+        ax.set_title(colname, **set_title_kwargs)
         ax.set_ylabel('')
         ax.legend_.remove()
-        ax.tick_params(**kws['tick_params'])
-
-        if not show_xlabel_title:
-            ax.set_xlabel('')
+        ax.tick_params(**tick_params_kwargs)
+        ax.set_xlabel('')
 
     fig = _del_empty_facets(
-        fig=fig, axs=axs, rows=rows, cols=cols, n_cols=n_cols
+        fig=fig, axs=axs, rows=layout[0], cols=layout[1], n_cols=n_cols
     );
     handles, labels = curr_plot.get_legend_handles_labels();
-    fig.legend(handles=handles, labels=labels, title=hue, **kws['figlegend']);
+    fig.legend(handles=handles, labels=labels, title=hue, **figlegend_kwargs);
     fig.tight_layout();
 
-    if non_numeric_dvs:
+    if non_numeric_cols:
         warn = ' columns are not numeric or bool and cannot be plotted'
-        logger.warning(str(non_numeric_dvs) + warn)
+        logger.warning(str(non_numeric_cols) + warn)
 
     return fig, axs;
 
@@ -1463,7 +1525,7 @@ def not_cols_in_df_error(df, cols):
         KeyError: if any of cols is not the name of a column in df
     """
     if not isinstance(df, pd.DataFrame):
-        raise TypeError('input must be a pandas.DataFrame')
+        raise TypeError('df input must be a pandas.DataFrame')
 
     if isinstance(cols, str):
         cols = [cols]
@@ -1494,9 +1556,7 @@ def not_value_in_series(series, values):
     for v in values:
 
         if v not in series.tolist():
-            raise ValueError(
-                'the value {} is not in the series {}. '.format(v, series.name)
-            )
+            raise ValueError(f'the value {v} is not in the series {series.name}.')
 
 
 def get_df_numeric_cols_list(df):
@@ -1515,38 +1575,38 @@ def get_df_numeric_cols_list(df):
     return cols_list
 
 
-def forest_plot(
-    df, dv=None, sort_values=True, standardize=False, figsize=(12, 9),
-    ylabel_size=12, xlabel_size=14, xaxis_title=''
-):
-    """"""
-    df = df.copy()
-    fig, ax = plt.subplots(figsize=figsize)
-    ax.set_yticks(range(df.shape[0]));
-#     ax.set_yticklabels(df[dv], fontsize=ylabel_size);
-    ax.set_xlabel(xaxis_title, fontsize=xlabel_size)
-    ax.axvline(x=df.mean().mean(), color='k', linestyle='--');
-
-    df['row_mean'] = df.mean(axis=1)
-    df['row_std'] = df.std(axis=1)
-    df['row_sem'] = df['row_std'] / np.sqrt(df.shape[0])
-    df['ci_upper'] = df['row_mean'] + (1.96 * df['row_sem'])
-    df['ci_lower'] = df['row_mean'] - (1.96 * df['row_sem'])
-
-    if sort_values:
-        df.sort_values(by='row_mean', inplace=True)
-
-    df.reset_index(inplace=True, drop=True)
-
-    for row in range(df.shape[0]):
-        lower = df.loc[row, 'ci_lower']
-        upper = df.loc[row, 'ci_upper']
-        mean = df.loc[row, 'row_mean']
-        ax.plot([lower, upper], [row, row], color='k')
-        ax.plot([mean, mean], [row, row], marker='s', linestyle='', color='red')
-
-    ax.set_ylabel = df.index
-    ax.invert_yaxis()
-
-    return ax
+# def forest_plot(
+#     df, dv=None, sort_values=True, standardize=False, figsize=(12, 9),
+#     ylabel_size=12, xlabel_size=14, xaxis_title=''
+# ):
+#     """"""
+#     df = df.copy()
+#     fig, ax = plt.subplots(figsize=figsize)
+#     ax.set_yticks(range(df.shape[0]));
+# #     ax.set_yticklabels(df[dv], fontsize=ylabel_size);
+#     ax.set_xlabel(xaxis_title, fontsize=xlabel_size)
+#     ax.axvline(x=df.mean().mean(), color='k', linestyle='--');
+#
+#     df['row_mean'] = df.mean(axis=1)
+#     df['row_std'] = df.std(axis=1)
+#     df['row_sem'] = df['row_std'] / np.sqrt(df.shape[0])
+#     df['ci_upper'] = df['row_mean'] + (1.96 * df['row_sem'])
+#     df['ci_lower'] = df['row_mean'] - (1.96 * df['row_sem'])
+#
+#     if sort_values:
+#         df.sort_values(by='row_mean', inplace=True)
+#
+#     df.reset_index(inplace=True, drop=True)
+#
+#     for row in range(df.shape[0]):
+#         lower = df.loc[row, 'ci_lower']
+#         upper = df.loc[row, 'ci_upper']
+#         mean = df.loc[row, 'row_mean']
+#         ax.plot([lower, upper], [row, row], color='k')
+#         ax.plot([mean, mean], [row, row], marker='s', linestyle='', color='red')
+#
+#     ax.set_ylabel = df.index
+#     ax.invert_yaxis()
+#
+#     return ax
 
